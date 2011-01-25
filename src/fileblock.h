@@ -44,6 +44,8 @@ protected:
 
     byte m_salt[8] ;
 
+    wchar_t m_filename[512];
+
 private:
     void parse();
     uint32 getOptionalHigherSize();

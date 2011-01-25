@@ -1,5 +1,7 @@
 #include <sstream>
+#include "string.h"
 #include "fileblock.h"
+#include "filename.h"
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
 {
@@ -59,6 +61,10 @@ FileBlock::extraDebugRepr()
     stream<<"[hasSalt]\t "<<hasSalt()<<"\n";
     stream<<"[hasPassword]\t "<<hasPassword()<<"\n";
     stream<<"[hasExtTime]\t "<<hasExtTime()<<"\n";
+    stream<<"\n";
+    stream<<"[filename]\n";
+    for(int i=0; i< wcslen(m_filename) ; i++)
+        stream<<std::hex<<(long long)m_filename[i]<<"\n";
 
     return stream.str();
 
@@ -67,6 +73,30 @@ FileBlock::extraDebugRepr()
 void
 FileBlock::getFileName()
 {
+    // FIXME: hard-coded, maybe too much or not enough.
+    byte buffer[1024] = { 0x0, };
+    readBytes(buffer, m_filename_size);
+    const byte * natives   = buffer;
+
+    if ( useUnicode())
+    {
+        const byte * delimiter = (const byte *)strchr( (const char *)buffer, 0x0);
+        const byte * weirds    = delimiter + 1;
+        size_t size_of_weirds  = m_filename_size - ( weirds - natives);
+
+        convert_weird_to_unicode((const char *)natives,
+                                 weirds,
+                                 size_of_weirds,
+                                 m_filename,
+                                 sizeof(m_filename)/sizeof(m_filename[0])
+                                 );
+    }
+    else
+    {
+        for(int i=0; i < m_filename_size ; i++)
+            m_filename[i] = (wchar_t) natives[i];
+        m_filename[m_filename_size] = 0;
+    }
 
 }
 
