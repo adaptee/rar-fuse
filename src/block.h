@@ -7,17 +7,15 @@ using std::string ;
 
 #include "defs.h"
 
-class Flags;
-
 class Block
 {
 
 public:
     Block(std::ifstream & stream, size_t base);
-    virtual ~Block();
 
     virtual size_t totalSize();
     virtual string debugRepr();
+
 
 protected:
 
@@ -26,11 +24,13 @@ protected:
     uint32 readUInt32();
     void   readBytes(size_t count, char * outbuf, size_t bufsize );
 
-    virtual Flags * getFlags();
+    // flags realted predicators.
+    bool shouldSkipUnknownBlock();
+    bool hasAddedSize();
 
     uint16  m_header_crc;
     byte    m_type;
-    Flags * m_flags;
+    uint16  m_flags;
     uint16  m_header_size;
     uint32  m_added_size;
 
@@ -57,7 +57,17 @@ public:
     MainBlock(std::ifstream & stream, size_t base);
 
 protected:
-    virtual Flags * getFlags();
+
+    bool isVolume();
+    bool hasEmbededComment();
+    bool isLocked();
+    bool isSolid();
+    bool useNewSchemeForVolumeName();
+    bool hasAuthInfo();
+    bool hasRecoveryRecord();
+    bool hasPassword();
+    bool isFirstVolume();
+    bool encryptVersion();;
 
 };
 
@@ -67,11 +77,20 @@ class FileBlock: public Block
 public:
     FileBlock(std::ifstream & stream, size_t base);
 
-    bool isDir();
-
 protected:
 
-    virtual Flags * getFlags();
+    bool isMissingPart();
+    bool needMissingPart();
+    bool hasPassword();
+    bool hasEmbededComment();
+    bool isSolid();
+    bool sizeOfDictInKB();
+    bool isDir();
+    bool isLargeFile();
+    bool useUnicode();
+    bool hasSalt();
+    bool hasExtTime();
+    bool hasExtFlags();
 
     uint32  m_low_pack_size;
     uint32  m_low_unpack_size;

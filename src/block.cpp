@@ -4,7 +4,6 @@
 #include <fstream>
 using std::ifstream ;
 
-#include "flags.h"
 
 Block::Block(std::ifstream & stream, size_t base):
     m_stream(stream),
@@ -13,41 +12,23 @@ Block::Block(std::ifstream & stream, size_t base):
     parse();
 }
 
-Block::~Block()
-{
-    delete m_flags;
-}
-
-
 void Block::parse()
 {
-    m_header_crc   = readUInt16();
-    m_type  = readByte();
-    m_flags = getFlags();
-    m_header_size  = readUInt16();
-    m_added_size   = getAddedSize();
-
+    m_header_crc  = readUInt16();
+    m_type        = readByte();
+    m_flags       = readUInt16();
+    m_header_size = readUInt16();
+    m_added_size  = getAddedSize();
 }
 
 uint32
 Block::getAddedSize()
 {
-    if ( m_flags->hasAddedSize() )
-    {
+    if ( hasAddedSize() )
         return readUInt32();
-    }
     else
-    {
         return 0;
-    }
 };
-
-Flags *
-Block::getFlags()
-{
-    uint16 hex = readUInt16();
-    return new Flags(hex);
-}
 
 
 string
@@ -60,6 +41,19 @@ size_t
 Block::totalSize()
 {
     return m_header_size + m_added_size ;
+}
+
+
+bool
+Block::shouldSkipUnknownBlock()
+{
+    return m_flags & 0x4000 ;
+}
+
+bool
+Block::hasAddedSize()
+{
+    return m_flags & 0x8000;
 }
 
 
@@ -103,7 +97,7 @@ MarkerBlock::MarkerBlock(std::ifstream & stream, size_t base): Block(stream, bas
 
     assert( m_header_crc  == 0x6152) ;
     assert( m_type        == 0x72) ;
-    assert( m_flags->hex() == 0x1a21) ;
+    assert( m_flags == 0x1a21) ;
     assert( m_header_size == 7) ;
     assert( m_added_size  == 0) ;
 }
@@ -115,12 +109,68 @@ MainBlock::MainBlock(std::ifstream & stream, size_t base): Block(stream, base)
 }
 
 
-Flags *
-MainBlock::getFlags()
+bool
+MainBlock::isVolume()
 {
-    uint16 hex = readUInt16();
-    return new MainFlags(hex);
+    return m_flags & 0x0001;
 }
+
+bool
+MainBlock::hasEmbededComment()
+{
+    return m_flags & 0x0002;
+}
+
+    bool
+MainBlock::isLocked()
+{
+    return m_flags & 0x0004;
+}
+
+    bool
+MainBlock::isSolid()
+{
+    return m_flags & 0x0008;
+}
+
+//scheme xxxx.partN.rar
+bool
+MainBlock::useNewSchemeForVolumeName()
+{
+    return m_flags & 0x0010;
+}
+
+
+bool
+MainBlock::hasAuthInfo()
+{
+    return m_flags & 0x0020;
+}
+
+bool
+MainBlock::hasRecoveryRecord()
+{
+    return m_flags & 0x0040;
+}
+
+bool
+MainBlock::hasPassword()
+{
+    return m_flags & 0x0080;
+}
+
+bool
+MainBlock::isFirstVolume()
+{
+    return m_flags & 0x0100;
+}
+
+bool
+MainBlock::encryptVersion()
+{
+    return m_flags & 0x0200;
+}
+
 
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
@@ -129,13 +179,6 @@ FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
 
 }
 
-Flags *
-FileBlock::getFlags()
-{
-    uint16 hex = readUInt16();
-    return new FileFlags(hex);
-
-}
 
 void
 FileBlock::parse()
@@ -158,11 +201,82 @@ FileBlock::parse()
 
 }
 
+
+bool
+FileBlock::isMissingPart()
+{
+    return m_flags & 0x0001;
+}
+
+bool
+FileBlock::needMissingPart()
+{
+    return m_flags & 0x0002;
+}
+
+bool
+FileBlock::hasPassword()
+{
+    return m_flags & 0x0004;
+}
+
+bool
+FileBlock::hasEmbededComment()
+{
+    return m_flags & 0x0008;
+}
+
+bool
+FileBlock::isSolid()
+{
+    return m_flags & 0x0010;
+}
+
+bool
+FileBlock::sizeOfDictInKB()
+{
+    //FIXME
+    //mask = 0x00e0
+    //result = m_flags & mask
+    return 64;
+}
+
 bool
 FileBlock::isDir()
 {
-    //return m_flags->isDir();
+    return m_flags & 0x00e0 == 0x00e0;
 }
+
+bool
+FileBlock::isLargeFile()
+{
+    return m_flags & 0x0100;
+}
+
+bool
+FileBlock::useUnicode()
+{
+    return m_flags & 0x0200;
+}
+
+bool
+FileBlock::hasSalt()
+{
+    return m_flags & 0x0400;
+}
+
+bool
+FileBlock::hasExtTime()
+{
+    return m_flags & 0x1000;
+}
+
+bool
+FileBlock::hasExtFlags()
+{
+    return m_flags & 0x2000;
+}
+
 
 SubBlock::SubBlock(std::ifstream & stream, size_t base): FileBlock(stream, base)
 {
@@ -211,7 +325,6 @@ Block * buildblock(std::ifstream & file, size_t base)
         default:
             return NULL;
     };
-
 }
 
 // becasuse we do not have ifstream.length(),
