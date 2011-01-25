@@ -1,12 +1,7 @@
 #include "block.h"
 
 #include <fstream>
-using std::ifstream ;
-using std::hex ;
-
 #include <sstream>
-//#include <iostream>
-//using std::cout ;
 
 Block::Block(std::ifstream & stream, size_t base):
     m_stream(stream),
