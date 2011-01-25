@@ -9,6 +9,7 @@ public:
     MainBlock(std::ifstream & stream, size_t base);
 
 protected:
+    virtual string extraDebugRepr();
 
     // predicators based upon flags
     bool isVolume();

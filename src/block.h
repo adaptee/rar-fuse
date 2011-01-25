@@ -17,11 +17,11 @@ public:
     string debugRepr();
 
 protected:
+    virtual string extraDebugRepr();
 
     // predicators based upon flags
     bool shouldSkipUnknownBlock();
     bool hasAddedSize();
-    virtual string extraDebugRepr();
 
     // basic data
     uint16  m_header_crc;

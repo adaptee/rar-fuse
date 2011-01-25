@@ -1,3 +1,4 @@
+#include <sstream>
 #include "mainblock.h"
 #include "assert.h"
 
@@ -6,6 +7,16 @@ MainBlock::MainBlock(std::ifstream & stream, size_t base): Block(stream, base)
     assert( m_type == 0x73) ;
 }
 
+string
+MainBlock::extraDebugRepr()
+{
+    std::stringstream stream;
+    stream<<"[hasPassword]\t "<<hasPassword()<<"\n";
+    stream<<"[isVolume]\t "<<isVolume()<<"\n";
+    stream<<"[isFirstVolume]\t "<<isFirstVolume()<<"\n";
+
+    return stream.str();
+}
 
 bool
 MainBlock::isVolume()
