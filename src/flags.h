@@ -6,12 +6,13 @@ class Flags
 {
 public:
     Flags(uint16 hex);
+    uint16 hex() { return m_hex; }
 
     bool shouldSkipUnknownBlock();
     bool hasAddedSize();
 
 protected:
-    uint16 m_hex;
+    const uint16 m_hex;
 
 };
 
