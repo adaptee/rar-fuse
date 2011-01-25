@@ -14,7 +14,7 @@ class Block
 
 public:
     Block(std::ifstream & stream, size_t base);
-    ~Block();
+    virtual ~Block();
 
     virtual size_t totalSize();
     virtual string debugRepr();
@@ -66,6 +66,25 @@ class FileBlock: public Block
 {
 public:
     FileBlock(std::ifstream & stream, size_t base);
+
+    bool isDir();
+
+protected:
+
+    virtual Flags * getFlags();
+
+    uint32  m_low_pack_size;
+    uint32  m_low_unpack_size;
+    byte    m_host_os;
+    uint32  m_filecrc;
+    uint32  m_filetime;
+    byte    m_unpack_version;
+    byte    m_pack_method;
+    uint16  m_filename_size;
+    uint32  m_fileattr;
+
+protected:
+    void parse();
 
 };
 

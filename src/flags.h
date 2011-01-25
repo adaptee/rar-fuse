@@ -6,6 +6,7 @@ class Flags
 {
 public:
     Flags(uint16 hex);
+    virtual ~Flags();
     uint16 hex() { return m_hex; }
 
     bool shouldSkipUnknownBlock();

@@ -5,6 +5,12 @@ Flags::Flags(uint16 hex): m_hex(hex)
 
 }
 
+Flags::~Flags()
+{
+
+}
+
+
 bool
 Flags::shouldSkipUnknownBlock()
 {

@@ -15,8 +15,9 @@ Block::Block(std::ifstream & stream, size_t base):
 
 Block::~Block()
 {
-
+    delete m_flags;
 }
+
 
 void Block::parse()
 {
@@ -44,9 +45,8 @@ Block::getAddedSize()
 Flags *
 Block::getFlags()
 {
-    uint16 hex    = readUInt16();
-    Flags * flags = new Flags(hex);
-    return flags;
+    uint16 hex = readUInt16();
+    return new Flags(hex);
 }
 
 
@@ -111,22 +111,57 @@ MarkerBlock::MarkerBlock(std::ifstream & stream, size_t base): Block(stream, bas
 
 MainBlock::MainBlock(std::ifstream & stream, size_t base): Block(stream, base)
 {
-
+    assert( m_type == 0x73) ;
 }
 
 
 Flags *
 MainBlock::getFlags()
 {
-    uint16 hex    = readUInt16();
-    Flags * flags = new MainFlags(hex);
-    return flags;
+    uint16 hex = readUInt16();
+    return new MainFlags(hex);
 }
 
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
 {
+    parse();
 
+}
+
+Flags *
+FileBlock::getFlags()
+{
+    uint16 hex = readUInt16();
+    return new FileFlags(hex);
+
+}
+
+void
+FileBlock::parse()
+{
+    m_low_pack_size    = m_added_size;
+    m_low_unpack_size  = readUInt32();
+    m_host_os          = readByte();
+    m_filecrc          = readUInt32();
+    m_filetime         = readUInt32();
+    m_unpack_version   = readByte();
+    m_pack_method      = readByte();
+    m_filename_size    = readUInt16();
+    m_fileattr         = readUInt32();
+
+    //m_high_pack_size   = getHighPackSize();
+    //m_high_unpack_size = getHighUnPackSize();
+    //m_filename         = getFileName();
+    //m_salt             = getSalt();
+    //m_ext_filetime     = getExtFileTime();
+
+}
+
+bool
+FileBlock::isDir()
+{
+    //return m_flags->isDir();
 }
 
 SubBlock::SubBlock(std::ifstream & stream, size_t base): FileBlock(stream, base)
@@ -174,9 +209,7 @@ Block * buildblock(std::ifstream & file, size_t base)
             return new EndBlock(file, base);
             break;
         default:
-            std::cout<<"[NULL]\n";
             return NULL;
-            break;
     };
 
 }
