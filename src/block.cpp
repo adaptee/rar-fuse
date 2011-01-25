@@ -1,5 +1,6 @@
 #include "block.h"
 
+#include <cassert>
 #include <fstream>
 using std::ifstream ;
 
