@@ -31,16 +31,16 @@
 
 class MarkerBlock : public RARBlock
 {
-	public:
-		MarkerBlock(std::istream &in);
-		 ~MarkerBlock();
-	
-		
-	
-	protected:
-		
+public:
+    MarkerBlock(std::istream &in);
+    ~MarkerBlock();
+
+
+
+protected:
+
 };
 
 
-#endif	//_MARKERBLOCK_H_
+#endif  //_MARKERBLOCK_H_
 

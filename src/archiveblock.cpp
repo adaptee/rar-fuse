@@ -30,13 +30,13 @@
 
 ArchiveBlock::ArchiveBlock(std::istream &in) : RARBlock(in)
 {
-	
+
 }
 
 
 ArchiveBlock::~ArchiveBlock()
 {
-	
+
 }
 
 

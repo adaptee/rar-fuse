@@ -31,21 +31,21 @@
 
 class RARBlock
 {
-	public:
-		RARBlock(std::istream &in);
-		 ~RARBlock();
+public:
+    RARBlock(std::istream &in);
+    ~RARBlock();
 
-		void print();
-		bool isBlock();
-	protected:
+    void print();
+    bool isBlock();
+protected:
 
-		unsigned int checksum;
-		unsigned int headsize;
-		unsigned int size;
-		unsigned char blocktype;
-		unsigned int flags;
+    unsigned int checksum;
+    unsigned int headsize;
+    unsigned int size;
+    unsigned char blocktype;
+    unsigned int flags;
 };
 
 
-#endif	//_RARBLOCK_H_
+#endif  //_RARBLOCK_H_
 

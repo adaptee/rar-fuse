@@ -30,13 +30,13 @@
 
 MarkerBlock::MarkerBlock(std::istream &in) : RARBlock(in)
 {
-	
+
 }
 
 
 MarkerBlock::~MarkerBlock()
 {
-	
+
 }
 
 

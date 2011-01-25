@@ -37,34 +37,34 @@
 
 class RARArchive
 {
-	public:
-		RARArchive();
-		~RARArchive();
-		
-		int Init(std::string filename);
-		std::string GetFileName(int n);
-		void PrintFiles();
-		void PrintFolders();
-		void Parse(bool showcompressed = false);
-		unsigned int Read(const char *path, char *buf, size_t size, off_t offset);
-		bool HasFile(std::string file);
-		bool HasFolder(std::string f);
-		unsigned long long int GetFileSize(std::string file);
-		std::vector < std::string > GetFiles();
-		std::vector < std::string > GetFolders();
-		time_t GetDate(std::string file);
-	protected:
-		std::string filename;
-		int firstfile;
-		int archivetype;
-		int default_date;
-		std::vector<RARBlock *> blocks;
-		std::map<std::string, std::vector<FileBlock *> > fileblocks;
-		std::map<std::string, std::vector<FileBlock *> > folderblocks;
-		
-		std::vector<std::ifstream *> streams;
+public:
+    RARArchive();
+    ~RARArchive();
+
+    int Init(std::string filename);
+    std::string GetFileName(int n);
+    void PrintFiles();
+    void PrintFolders();
+    void Parse(bool showcompressed = false);
+    unsigned int Read(const char *path, char *buf, size_t size, off_t offset);
+    bool HasFile(std::string file);
+    bool HasFolder(std::string f);
+    unsigned long long int GetFileSize(std::string file);
+    std::vector < std::string > GetFiles();
+    std::vector < std::string > GetFolders();
+    time_t GetDate(std::string file);
+protected:
+    std::string filename;
+    int firstfile;
+    int archivetype;
+    int default_date;
+    std::vector<RARBlock *> blocks;
+    std::map<std::string, std::vector<FileBlock *> > fileblocks;
+    std::map<std::string, std::vector<FileBlock *> > folderblocks;
+
+    std::vector<std::ifstream *> streams;
 };
 
 
-#endif	//_RARARCHIVE_H_
+#endif  //_RARARCHIVE_H_
 

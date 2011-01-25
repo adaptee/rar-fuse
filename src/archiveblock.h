@@ -31,15 +31,15 @@
 
 class ArchiveBlock : public RARBlock
 {
-	public:
-		ArchiveBlock(std::istream &in);
-		 ~ArchiveBlock();
-	
-		
-	protected:
-		
+public:
+    ArchiveBlock(std::istream &in);
+    ~ArchiveBlock();
+
+
+protected:
+
 };
 
 
-#endif	//_ARCHIVEBLOCK_H_
+#endif  //_ARCHIVEBLOCK_H_
 

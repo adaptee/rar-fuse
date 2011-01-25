@@ -30,16 +30,16 @@
 /*
  *  linux/fs/msdos/misc.c
  *
- *  Written 1992,1993 by Werner Almesberger
+ *  Written 1992, 1993 by Werner Almesberger
  */
 
 /* Convert a MS-DOS time/date pair to a UNIX date (seconds since 1 1 70). */
 
 /* Linear day numbers of the respective 1sts in non-leap years. */
-static int day_n[] = { 0,31,59,90,120,151,181,212,243,273,304,334,0,0,0,0 };
-int date_dos2unix(unsigned short time,unsigned short date)
+static int day_n[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 0, 0, 0, 0 };
+int date_dos2unix(unsigned short time, unsigned short date)
 {
-       int month,year,secs;
+       int month, year, secs;
 
        month = ((date >> 5) & 15)-1;
        year = date >> 9;
@@ -53,45 +53,45 @@ int date_dos2unix(unsigned short time,unsigned short date)
 FileBlock::FileBlock(std::istream &in) : RARBlock(in),
 in(in)
 {
-	unsigned int end = in.tellg();
-	start = end - size - headsize;
+        unsigned int end = in.tellg();
+        start = end - size - headsize;
 
-	in.seekg(end + 16-size-headsize);
-	unsigned short time;
-	unsigned short date;
-	time = in.get();
-	time += in.get() *256;
-	date = in.get();
-	date += in.get() *256;
-	filedate=date_dos2unix(time,date);
+        in.seekg(end + 16-size-headsize);
+        unsigned short time;
+        unsigned short date;
+        time = in.get();
+        time += in.get() *256;
+        date = in.get();
+        date += in.get() *256;
+        filedate=date_dos2unix(time, date);
 
-	in.seekg(end + 21-size-headsize);
+        in.seekg(end + 21-size-headsize);
 
-	if ( in.get() == 48 )
-		compressed = false;
-	else
-		compressed = true;
+        if ( in.get() == 48 )
+                compressed = false;
+        else
+                compressed = true;
 
-	unsigned int filenamesize = in.get();
-	filenamesize += in.get() * 256;
-	
-	in.seekg(4, std::ios::cur);
-	char m[filenamesize+1];
-	
+        unsigned int filenamesize = in.get();
+        filenamesize += in.get() * 256;
+
+        in.seekg(4, std::ios::cur);
+        char m[filenamesize+1];
+
 #ifdef OK_TO_BREAK
-	if( flags & 0x0100 )
-		in.seekg(8, std::ios::cur);
+        if( flags & 0x0100 )
+                in.seekg(8, std::ios::cur);
 #endif
 
-	in.read(m, filenamesize);
-	m[filenamesize] = 0;
-	filename = m;
-	in.seekg(end);
-	
-	if ( ( flags & 0xE0 ) == 0xE0 )
-		folder = true;
-	else
-		folder = false;
+        in.read(m, filenamesize);
+        m[filenamesize] = 0;
+        filename = m;
+        in.seekg(end);
+
+        if ( ( flags & 0xE0 ) == 0xE0 )
+                folder = true;
+        else
+                folder = false;
 }
 
 time_t
@@ -102,48 +102,48 @@ FileBlock::GetFileDate()
 
 FileBlock::~FileBlock()
 {
-	
+
 }
 
 bool
 FileBlock::isFolder()
 {
-	return folder;
+        return folder;
 }
 
 bool
 FileBlock::isCompressed()
 {
-	return compressed;
+        return compressed;
 }
 
 unsigned int
 FileBlock::GetDataSize()
 {
-	return size;
+        return size;
 }
 
 std::string
 FileBlock::GetFileName()
 {
-	return filename;
+        return filename;
 }
 
 int
 FileBlock::GetData(char *buf, unsigned int offset, unsigned int len)
 {
-	std::streampos old = in.tellg();
+        std::streampos old = in.tellg();
 
-	in.seekg(start + headsize + offset -4);
-	
-	if ( offset > size || !len) 
-		return 0;
-	if ( offset + len > size )
-		len = size - offset;
-	
-	in.read(buf, len);
-	in.seekg(old);
-	
-	return len;
+        in.seekg(start + headsize + offset -4);
+
+        if ( offset > size || !len)
+                return 0;
+        if ( offset + len > size )
+                len = size - offset;
+
+        in.read(buf, len);
+        in.seekg(old);
+
+        return len;
 }
 

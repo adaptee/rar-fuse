@@ -31,25 +31,25 @@
 
 class FileBlock : public RARBlock
 {
-	public:
-		FileBlock(std::istream &in);
-		 ~FileBlock();
-	
-		std::string GetFileName();
-		time_t GetFileDate();
-		unsigned int GetDataSize();
-		int GetData(char *buf, unsigned int offset, unsigned int len);
-		bool isFolder();
-		bool isCompressed();
-	protected:
-		std::string filename;
-		unsigned int start;
-		std::istream &in;
-		bool folder;
-		bool compressed;
-		time_t filedate;
+public:
+    FileBlock(std::istream &in);
+    ~FileBlock();
+
+    std::string GetFileName();
+    time_t GetFileDate();
+    unsigned int GetDataSize();
+    int GetData(char *buf, unsigned int offset, unsigned int len);
+    bool isFolder();
+    bool isCompressed();
+protected:
+    std::string filename;
+    unsigned int start;
+    std::istream &in;
+    bool folder;
+    bool compressed;
+    time_t filedate;
 };
 
 
-#endif	//_FILEBLOCK_H_
+#endif  //_FILEBLOCK_H_
 
