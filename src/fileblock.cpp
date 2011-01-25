@@ -6,6 +6,18 @@ FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
 
 }
 
+uint64
+FileBlock::packSize()
+{
+    return m_low_pack_size + (uint64(m_high_pack_size) << 32);
+}
+
+uint64
+FileBlock::unpackSize()
+{
+    return m_low_unpack_size + (uint64(m_high_unpack_size) << 32);
+}
+
 
 void
 FileBlock::parse()
@@ -14,24 +26,56 @@ FileBlock::parse()
     // implies that optional filed `m_added_size` is alwasy present.
     // so this field is intrepreted as low_pack_size
     m_low_pack_size    = m_added_size;
-
     m_low_unpack_size  = readUInt32();
+
     m_host_os          = readByte();
+
     m_filecrc          = readUInt32();
     m_filetime         = readUInt32();
+
     m_unpack_version   = readByte();
     m_pack_method      = readByte();
+
     m_filename_size    = readUInt16();
     m_fileattr         = readUInt32();
 
-    //m_high_pack_size   = getHighPackSize();
-    //m_high_unpack_size = getHighUnPackSize();
-    //m_filename         = getFileName();
-    //m_salt             = getSalt();
-    //m_ext_filetime     = getExtFileTime();
+    m_high_pack_size   = getOptionalHigherSize();
+    m_high_unpack_size = getOptionalHigherSize();
+
+    getFileName();
+    getSalt(m_salt);
+    getExtFileTime();
 
 }
 
+
+void
+FileBlock::getFileName()
+{
+
+}
+
+uint32
+FileBlock::getOptionalHigherSize()
+{
+    if (isLargeFile())
+        return readUInt32();
+    else
+        return 0;
+}
+
+void
+FileBlock::getSalt(byte * buf)
+{
+    if ( hasSalt() )
+        readBytes(buf, 8);
+}
+
+void
+FileBlock::getExtFileTime()
+{
+
+}
 
 bool
 FileBlock::isMissingPart()

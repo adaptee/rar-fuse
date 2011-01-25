@@ -8,6 +8,9 @@ class FileBlock: public Block
 public:
     FileBlock(std::ifstream & stream, size_t base);
 
+    uint64 packSize();
+    uint64 unpackSize();
+
 protected:
 
     // predicators based upon flags
@@ -35,8 +38,18 @@ protected:
     uint16  m_filename_size;
     uint32  m_fileattr;
 
+    uint32 m_high_pack_size ;
+    uint32 m_high_unpack_size ;
+
+    byte m_salt[8] ;
+
 private:
     void parse();
+    uint32 getOptionalHigherSize();
+
+    void getSalt(byte * buf);
+    void getFileName();
+    void getExtFileTime();
 
 };
 

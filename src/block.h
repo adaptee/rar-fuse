@@ -33,7 +33,7 @@ protected:
     byte   readByte();
     uint16 readUInt16();
     uint32 readUInt32();
-    void   readBytes(size_t count, char * outbuf, size_t bufsize );
+    void   readBytes( byte * outbuf, size_t count );
 
 private:
     void parse();

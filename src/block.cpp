@@ -1,4 +1,3 @@
-#include "assert.h"
 #include "block.h"
 
 #include <fstream>
@@ -84,10 +83,9 @@ Block::readUInt32()
 }
 
 void
-Block::readBytes(size_t count, char * outbuf, size_t bufsize )
+Block::readBytes(byte * outbuf, size_t count )
 {
-    assert( bufsize >= count);
-    m_stream.read(outbuf, count);
+    m_stream.read( reinterpret_cast<char*>(outbuf), count);
 }
 
 
