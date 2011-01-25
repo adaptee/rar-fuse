@@ -14,13 +14,14 @@ public:
     Block(std::ifstream & stream, size_t base);
 
     size_t totalSize();
-    virtual string debugRepr();
+    string debugRepr();
 
 protected:
 
     // predicators based upon flags
     bool shouldSkipUnknownBlock();
     bool hasAddedSize();
+    virtual string extraDebugRepr();
 
     // basic data
     uint16  m_header_crc;

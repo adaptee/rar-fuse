@@ -68,11 +68,9 @@ int main(int argc, char const* argv[])
     while( base < length )
     {
         Block * block = buildblock(file, base);
-        std::cout<<"got one block!\n";
-        std::cout<<block->totalSize()<<" bytes\n";
         std::cout<<block->debugRepr();
+
         base += block->totalSize();
-        std::cout<<"\n";
     }
 
     return 0;

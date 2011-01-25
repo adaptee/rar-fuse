@@ -2,6 +2,11 @@
 
 #include <fstream>
 using std::ifstream ;
+using std::hex ;
+
+#include <sstream>
+//#include <iostream>
+//using std::cout ;
 
 Block::Block(std::ifstream & stream, size_t base):
     m_stream(stream),
@@ -32,7 +37,30 @@ Block::getAddedSize()
 string
 Block::debugRepr()
 {
-    return string("hello\n");
+    std::stringstream stream ;
+
+    stream<<"===============================================================\n";
+
+    stream<<"[type]\t "<<"0x"<<std::hex<<(uint16)m_type<<"\n";
+    stream<<"[flag]\t "<<"0x"<<std::hex<<(uint16)m_flags<<"\n";
+    stream<<"[base]\t "<<"0x"<<std::hex<<(uint32)m_base<<"\n";
+    stream<<"[header_size]\t "<<"0x"<<std::hex<<(uint16)m_header_size<<"\n";
+    stream<<"[total_size]\t "<<"0x"<<std::hex<<(uint32)totalSize()<<"\n";
+    stream<<"\n";
+
+    stream<< extraDebugRepr();
+
+    stream<<"===============================================================\n";
+    stream<<"\n";
+
+    return stream.str();
+}
+
+
+string
+Block::extraDebugRepr()
+{
+    return "";
 }
 
 size_t
