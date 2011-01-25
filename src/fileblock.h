@@ -12,6 +12,7 @@ public:
     uint64 unpackSize();
 
 protected:
+    virtual string extraDebugRepr();
 
     // predicators based upon flags
     bool isMissingPart();

@@ -1,3 +1,4 @@
+#include <sstream>
 #include "fileblock.h"
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
@@ -48,6 +49,20 @@ FileBlock::parse()
 
 }
 
+string
+FileBlock::extraDebugRepr()
+{
+    std::stringstream stream;
+    stream<<"[isDir]\t "<<isDir()<<"\n";
+    stream<<"[HostOS]\t "<<(uint16)m_host_os<<"\n";
+    stream<<"[useUnicode]\t "<<useUnicode()<<"\n";
+    stream<<"[hasSalt]\t "<<hasSalt()<<"\n";
+    stream<<"[hasPassword]\t "<<hasPassword()<<"\n";
+    stream<<"[hasExtTime]\t "<<hasExtTime()<<"\n";
+
+    return stream.str();
+
+}
 
 void
 FileBlock::getFileName()
