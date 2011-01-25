@@ -13,58 +13,74 @@ class Block
 {
 
 public:
-    Block(std::ifstream & in, size_t base);
+    Block(std::ifstream & stream, size_t base);
     ~Block();
 
     virtual size_t totalSize();
     virtual string debugRepr();
 
 protected:
-    uint16 m_header_crc;
-    byte   m_type;
+
+    byte   readByte();
+    uint16 readUInt16();
+    uint32 readUInt32();
+    void   readBytes(size_t count, char * outbuf, size_t bufsize );
+
+    virtual Flags * getFlags();
+
+    uint16  m_header_crc;
+    byte    m_type;
     Flags * m_flags;
-    uint16 m_header_size;
-    uint32 m_added_size;
+    uint16  m_header_size;
+    uint32  m_added_size;
 
 private:
     void parse();
 
-    Flags * getFlags();
     uint32 getAddedSize();
 
-    byte readByte();
-    uint16 readUInt16();
-    uint32 readUInt32();
-    void readBytes(size_t count, char * outbuf, size_t bufsize );
 
     std::ifstream & m_stream;
     const size_t m_base;
 };
 
 
-class MarkBlock: public Block
+class MarkerBlock: public Block
 {
-
+public:
+    MarkerBlock(std::ifstream & stream, size_t base);
 };
 
 class MainBlock: public Block
 {
+public:
+    MainBlock(std::ifstream & stream, size_t base);
+
+protected:
+    virtual Flags * getFlags();
 
 };
 
 
 class FileBlock: public Block
 {
+public:
+    FileBlock(std::ifstream & stream, size_t base);
 
 };
+
+
 
 class SubBlock: public FileBlock
 {
-
+public:
+    SubBlock(std::ifstream & stream, size_t base);
 };
 
-class EndBlock: Block
+class EndBlock: public Block
 {
+public:
+    EndBlock(std::ifstream & stream, size_t base);
 
 };
 
