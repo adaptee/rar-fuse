@@ -10,8 +10,7 @@ public:
 
     virtual bool isFile() const { return true;}
     virtual bool isDir()  const { return false;}
-
-    size_t size() const ;
+    virtual size_t size() const;
 
 };
 

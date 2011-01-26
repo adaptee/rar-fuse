@@ -15,7 +15,7 @@ public:
 
     wstring name()   const { return m_name; }
     Entry * parent() const { return m_parent; }
-    void setParent(const Entry * parent) { m_parent = parent; }
+    void setParent(Entry * parent) { m_parent = parent; }
 
     void addBlock( FileBlock * block);
 
@@ -27,7 +27,7 @@ public:
 protected:
     wstring m_name;
     Entry * m_parent;
-    vector<FileBlock *> m_fileblocks;
+    vector<FileBlock *> m_blocks;
 
 };
 

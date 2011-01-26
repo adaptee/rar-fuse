@@ -10,7 +10,7 @@ m_parent(NULL)
 void
 Entry::addBlock( FileBlock * block)
 {
-    m_fileblocks.push_back(block);
+    m_blocks.push_back(block);
 }
 
 
