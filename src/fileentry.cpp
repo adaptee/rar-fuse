@@ -3,7 +3,7 @@
 #include <sstream>
 #include "fileblock.h"
 
-FileEntry::FileEntry( const string & name): Entry(name)
+FileEntry::FileEntry( const wstring & name): Entry(name)
 {
 }
 
@@ -19,10 +19,10 @@ FileEntry::size() const
     return sum;
 }
 
-string
+wstring
 FileEntry::debugRepr() const
 {
-    std::stringstream stream;
+    std::wstringstream stream;
     stream<<"[file]\t"<<name()<<"\n";
 
     return stream.str();

@@ -29,10 +29,10 @@ Block::getAddedSize()
 };
 
 
-string
+wstring
 Block::debugRepr() const
 {
-    std::stringstream stream ;
+    std::wstringstream stream ;
 
     stream<<"===============================================================\n";
 
@@ -52,10 +52,10 @@ Block::debugRepr() const
 }
 
 
-string
+wstring
 Block::extraDebugRepr() const
 {
-    return "";
+    return L"";
 }
 
 size_t

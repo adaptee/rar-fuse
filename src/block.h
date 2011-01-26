@@ -3,7 +3,7 @@
 
 #include <iosfwd>
 #include <string>
-using std::string ;
+using std::wstring ;
 
 #include "defs.h"
 
@@ -14,10 +14,10 @@ public:
     Block(std::ifstream & stream, size_t base);
 
     size_t totalSize() const;
-    string debugRepr() const;
+    wstring debugRepr() const;
 
 protected:
-    virtual string extraDebugRepr() const;
+    virtual wstring extraDebugRepr() const;
 
     // predicators based upon flags
     bool shouldSkipUnknownBlock() const;

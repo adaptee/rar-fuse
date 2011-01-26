@@ -10,13 +10,13 @@ public:
 
     bool isDir() const;
 
-    string filename() const;
+    wstring filename() const;
 
     uint64 packSize() const;
     uint64 unpackSize() const;
 
 protected:
-    virtual string extraDebugRepr() const;
+    virtual wstring extraDebugRepr() const;
 
     // predicators based upon flags
     bool isMissingPart() const ;

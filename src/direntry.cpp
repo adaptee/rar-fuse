@@ -1,16 +1,16 @@
 #include "direntry.h"
 #include <sstream>
 
-DirEntry::DirEntry( const string & name): Entry(name)
+DirEntry::DirEntry( const wstring & name): Entry(name)
 {
 
 
 }
 
-string
+wstring
 DirEntry::debugRepr() const
 {
-    std::stringstream stream;
+    std::wstringstream stream;
     stream<<"[dir] "<<name()<<"\n";
 
     size_t size = m_subentries.size();

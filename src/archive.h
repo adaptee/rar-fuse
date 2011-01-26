@@ -24,7 +24,7 @@ public:
     vector< FileBlock *> fileBlocks () const;
     vector< FileBlock *> dirBlocks () const;
 
-    std::string debugRepr() const;
+    std::wstring debugRepr() const;
 
 
 private:

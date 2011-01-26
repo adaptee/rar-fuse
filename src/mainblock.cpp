@@ -7,10 +7,10 @@ MainBlock::MainBlock(std::ifstream & stream, size_t base): Block(stream, base)
     assert( m_type == 0x73) ;
 }
 
-string
+wstring
 MainBlock::extraDebugRepr()
 {
-    std::stringstream stream;
+    std::wstringstream stream;
     stream<<"[hasPassword]\t "<<hasPassword()<<"\n";
     stream<<"[isVolume]\t "<<isVolume()<<"\n";
     stream<<"[isFirstVolume]\t "<<isFirstVolume()<<"\n";

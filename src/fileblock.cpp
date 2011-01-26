@@ -11,14 +11,15 @@ FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
 }
 
 
-string
+wstring
 FileBlock::filename() const
 {
     // FIXME; may be too much or not enough
-    char mbs[2048] = { 0x0,};
-    wcstombs(mbs, m_filename, sizeof(mbs) );
+    //char mbs[2048] = { 0x0,};
+    //wcstombs(mbs, m_filename, sizeof(mbs) );
 
-    return string(mbs);
+    //return wstring(mbs);
+    return wstring(m_filename);
 }
 
 
@@ -64,10 +65,10 @@ FileBlock::parse()
 
 }
 
-string
+wstring
 FileBlock::extraDebugRepr() const
 {
-    std::stringstream stream;
+    std::wstringstream stream;
     stream<<"[isDir]\t\t "<<isDir()<<"\n";
     stream<<"[HostOS]\t "<<(uint16)m_host_os<<"\n";
     stream<<"[useUnicode]\t "<<useUnicode()<<"\n";

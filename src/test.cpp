@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 using std::ios;
-using std::cout;
+using std::wcout;
 
 #include <locale.h>
 
@@ -14,11 +14,11 @@ int main(int argc, char const* argv[])
     setlocale(LC_ALL, "");
 
     //Archive archive(argv[1]);
-    //std::cout<<archive.debugRepr();
+    //std::wcout<<archive.debugRepr();
 
     FileSystem fs(argv[1]);
-    std::cout<<fs.debugRepr();
-    std::cout<<fs.archive()->debugRepr();
+    std::wcout<<fs.debugRepr();
+    std::wcout<<fs.archive()->debugRepr();
 
     return 0;
 }

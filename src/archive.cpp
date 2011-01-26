@@ -121,10 +121,10 @@ Archive::parse()
 }
 
 
-std::string
+std::wstring
 Archive::debugRepr() const
 {
-    std::stringstream stream;
+    std::wstringstream stream;
 
     size_t size = m_blocks.size();
     for(int i=0; i < size; i++)
