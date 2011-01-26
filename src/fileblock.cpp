@@ -1,5 +1,6 @@
 #include <sstream>
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
 #include "fileblock.h"
 #include "filename.h"
 
@@ -8,6 +9,18 @@ FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
     parse();
 
 }
+
+
+string
+FileBlock::filename() const
+{
+    // FIXME; may be too much or not enough
+    char mbs[2048] = { 0x0,};
+    wcstombs(mbs, m_filename, sizeof(mbs) );
+
+    return string(mbs);
+}
+
 
 uint64
 FileBlock::packSize()
@@ -62,9 +75,9 @@ FileBlock::extraDebugRepr()
     stream<<"[hasPassword]\t "<<hasPassword()<<"\n";
     stream<<"[hasExtTime]\t "<<hasExtTime()<<"\n";
     stream<<"\n";
-    stream<<"[filename]\n";
-    for(int i=0; i< wcslen(m_filename) ; i++)
-        stream<<std::hex<<(long long)m_filename[i]<<"\n";
+    stream<<"[filename]\t"<<filename()<<"\n";
+    //for(int i=0; i< wcslen(m_filename) ; i++)
+        //stream<<std::hex<<(long long)m_filename[i]<<"\n";
 
     return stream.str();
 
@@ -162,7 +175,7 @@ FileBlock::sizeOfDictInKB()
 }
 
 bool
-FileBlock::isDir()
+FileBlock::isDir() const
 {
     return m_flags & 0x00e0 == 0x00e0;
 }

@@ -8,7 +8,9 @@ class FileBlock: public Block
 public:
     FileBlock(std::ifstream & stream, size_t base);
 
-    bool isDir();
+    bool isDir() const;
+
+    string filename() const;
 
     uint64 packSize();
     uint64 unpackSize();
