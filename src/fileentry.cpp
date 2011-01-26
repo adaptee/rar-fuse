@@ -1,9 +1,10 @@
 #include "fileentry.h"
+
+#include <sstream>
 #include "fileblock.h"
 
-FileEntry::FileEntry( const wstring & name): Entry(name)
+FileEntry::FileEntry( const string & name): Entry(name)
 {
-
 }
 
 size_t
@@ -18,3 +19,12 @@ FileEntry::size() const
     return sum;
 }
 
+string
+FileEntry::debugRepr() const
+{
+    std::stringstream stream;
+    stream<<"[file]\t"<<name()<<"\n";
+
+    return stream.str();
+
+}

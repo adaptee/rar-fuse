@@ -1,6 +1,6 @@
 #include "entry.h"
 
-Entry::Entry(const wstring & name):
+Entry::Entry(const string & name):
 m_name(name),
 m_parent(NULL)
 {

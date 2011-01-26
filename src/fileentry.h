@@ -6,11 +6,12 @@
 class FileEntry: public Entry
 {
 public:
-    FileEntry( const wstring & name);
+    FileEntry( const string & name);
 
     virtual bool isFile() const { return true;}
     virtual bool isDir()  const { return false;}
     virtual size_t size() const;
+    virtual string debugRepr() const ;
 
 };
 
