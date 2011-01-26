@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+using std::vector;
 
 class Block;
 class MarkerBlock;
@@ -19,6 +20,9 @@ class Archive
 public:
     Archive( const char * filename);
     ~Archive();
+
+    vector< FileBlock *> fileBlocks () const;
+    vector< FileBlock *> dirBlocks () const;
 
     std::string debugRepr() const;
 

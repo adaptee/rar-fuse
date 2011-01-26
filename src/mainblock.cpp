@@ -21,62 +21,62 @@ MainBlock::extraDebugRepr()
 bool
 MainBlock::isVolume()
 {
-    return m_flags & 0x0001;
+    return m_flags & 0x0001U;
 }
 
 bool
 MainBlock::hasEmbededComment()
 {
-    return m_flags & 0x0002;
+    return m_flags & 0x0002U;
 }
 
 bool
 MainBlock::isLocked()
 {
-    return m_flags & 0x0004;
+    return m_flags & 0x0004U;
 }
 
 bool
 MainBlock::isSolid()
 {
-    return m_flags & 0x0008;
+    return m_flags & 0x0008U;
 }
 
 //scheme xxxx.partN.rar
 bool
 MainBlock::useNewSchemeForVolumeName()
 {
-    return m_flags & 0x0010;
+    return m_flags & 0x0010U;
 }
 
 
 bool
 MainBlock::hasAuthInfo()
 {
-    return m_flags & 0x0020;
+    return m_flags & 0x0020U;
 }
 
 bool
 MainBlock::hasRecoveryRecord()
 {
-    return m_flags & 0x0040;
+    return m_flags & 0x0040U;
 }
 
 bool
 MainBlock::hasPassword()
 {
-    return m_flags & 0x0080;
+    return m_flags & 0x0080U;
 }
 
 bool
 MainBlock::isFirstVolume()
 {
-    return m_flags & 0x0100;
+    return m_flags & 0x0100U;
 }
 
 bool
 MainBlock::encryptVersion()
 {
-    return m_flags & 0x0200;
+    return m_flags & 0x0200U;
 }
 

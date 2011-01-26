@@ -133,3 +133,16 @@ Archive::debugRepr() const
     return stream.str();
 }
 
+
+vector< FileBlock *>
+Archive::fileBlocks () const
+{
+    return m_fileblocks;
+}
+
+vector< FileBlock *>
+Archive::dirBlocks () const
+{
+    return m_dirblocks;
+}
+

@@ -144,32 +144,32 @@ FileBlock::isMissingPart()
 bool
 FileBlock::needMissingPart()
 {
-    return m_flags & 0x0002;
+    return m_flags & 0x0002U;
 }
 
 bool
 FileBlock::hasPassword()
 {
-    return m_flags & 0x0004;
+    return m_flags & 0x0004U;
 }
 
 bool
 FileBlock::hasEmbededComment()
 {
-    return m_flags & 0x0008;
+    return m_flags & 0x0008U;
 }
 
 bool
 FileBlock::isSolid()
 {
-    return m_flags & 0x0010;
+    return m_flags & 0x0010U;
 }
 
 bool
 FileBlock::sizeOfDictInKB()
 {
     //FIXME
-    //mask = 0x00e0
+    //mask = 0x00e0U
     //result = m_flags & mask
     return 64;
 }
@@ -177,35 +177,35 @@ FileBlock::sizeOfDictInKB()
 bool
 FileBlock::isDir() const
 {
-    return m_flags & 0x00e0 == 0x00e0;
+    return (m_flags & 0x00e0U) == 0x00e0U ;
 }
 
 bool
 FileBlock::isLargeFile()
 {
-    return m_flags & 0x0100;
+    return m_flags & 0x0100U;
 }
 
 bool
 FileBlock::useUnicode()
 {
-    return m_flags & 0x0200;
+    return m_flags & 0x0200U;
 }
 
 bool
 FileBlock::hasSalt()
 {
-    return m_flags & 0x0400;
+    return m_flags & 0x0400U;
 }
 
 bool
 FileBlock::hasExtTime()
 {
-    return m_flags & 0x1000;
+    return m_flags & 0x1000U;
 }
 
 bool
 FileBlock::hasExtFlags()
 {
-    return m_flags & 0x2000;
+    return m_flags & 0x2000U;
 }

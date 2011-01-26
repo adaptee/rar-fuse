@@ -68,13 +68,13 @@ Block::totalSize()
 bool
 Block::shouldSkipUnknownBlock()
 {
-    return m_flags & 0x4000 ;
+    return m_flags & 0x4000U ;
 }
 
 bool
 Block::hasAddedSize()
 {
-    return m_flags & 0x8000;
+    return m_flags & 0x8000U;
 }
 
 
