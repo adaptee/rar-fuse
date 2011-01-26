@@ -19,63 +19,63 @@ MainBlock::extraDebugRepr()
 }
 
 bool
-MainBlock::isVolume()
+MainBlock::isVolume() const
 {
     return m_flags & 0x0001U;
 }
 
 bool
-MainBlock::hasEmbededComment()
+MainBlock::hasEmbededComment() const
 {
     return m_flags & 0x0002U;
 }
 
 bool
-MainBlock::isLocked()
+MainBlock::isLocked() const
 {
     return m_flags & 0x0004U;
 }
 
 bool
-MainBlock::isSolid()
+MainBlock::isSolid() const
 {
     return m_flags & 0x0008U;
 }
 
 //scheme xxxx.partN.rar
 bool
-MainBlock::useNewSchemeForVolumeName()
+MainBlock::useNewSchemeForVolumeName() const
 {
     return m_flags & 0x0010U;
 }
 
 
 bool
-MainBlock::hasAuthInfo()
+MainBlock::hasAuthInfo() const
 {
     return m_flags & 0x0020U;
 }
 
 bool
-MainBlock::hasRecoveryRecord()
+MainBlock::hasRecoveryRecord() const
 {
     return m_flags & 0x0040U;
 }
 
 bool
-MainBlock::hasPassword()
+MainBlock::hasPassword() const
 {
     return m_flags & 0x0080U;
 }
 
 bool
-MainBlock::isFirstVolume()
+MainBlock::isFirstVolume() const
 {
     return m_flags & 0x0100U;
 }
 
 bool
-MainBlock::encryptVersion()
+MainBlock::encryptVersion() const
 {
     return m_flags & 0x0200U;
 }

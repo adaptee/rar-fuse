@@ -12,16 +12,16 @@ protected:
     virtual string extraDebugRepr();
 
     // predicators based upon flags
-    bool isVolume();
-    bool hasEmbededComment();
-    bool isLocked();
-    bool isSolid();
-    bool useNewSchemeForVolumeName();
-    bool hasAuthInfo();
-    bool hasRecoveryRecord();
-    bool hasPassword();
-    bool isFirstVolume();
-    bool encryptVersion();;
+    bool isVolume() const ;
+    bool hasEmbededComment() const ;
+    bool isLocked() const ;
+    bool isSolid() const ;
+    bool useNewSchemeForVolumeName() const ;
+    bool hasAuthInfo() const ;
+    bool hasRecoveryRecord() const ;
+    bool hasPassword() const ;
+    bool isFirstVolume() const ;
+    bool encryptVersion() const ;;
 
 };
 
