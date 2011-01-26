@@ -18,7 +18,7 @@ int main(int argc, char const* argv[])
 
     FileSystem fs(argv[1]);
     std::cout<<fs.debugRepr();
-    std::cout<<fs.m_archive->debugRepr();
+    std::cout<<fs.archive()->debugRepr();
 
     return 0;
 }
