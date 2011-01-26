@@ -1,6 +1,7 @@
-#include <sstream>
 #include "mainblock.h"
-#include "assert.h"
+
+#include <sstream>
+#include <assert.h>
 
 MainBlock::MainBlock(std::ifstream & stream, size_t base): Block(stream, base)
 {
