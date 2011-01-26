@@ -18,6 +18,7 @@ class Archive
 
 public:
     Archive( const char * filename);
+    ~Archive();
 
     std::string debugRepr() const;
 

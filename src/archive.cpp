@@ -29,6 +29,31 @@ m_file(filename, std::ios::in|std::ios::binary)
     parse();
 }
 
+
+// class Archive should be regarded as the owner of all Blocks
+// since all blocks are created in Archive::parse().
+// So it is natually also its duty to destory those blocks.
+Archive::~Archive()
+{
+
+    delete m_markerblock;
+    delete m_mainblock;
+    delete m_endblock;
+
+    size_t size = m_fileblocks.size();
+    for( size_t i=0; i < size; i++)
+	delete m_fileblocks[i];
+
+    size = m_dirblocks.size();
+    for( size_t i=0; i < size; i++)
+	delete m_dirblocks[i];
+
+    size = m_subblocks.size();
+    for( size_t i=0; i < size; i++)
+	delete m_subblocks[i];
+}
+
+
 void
 Archive::parse()
 {
