@@ -55,7 +55,7 @@ string
 FileBlock::extraDebugRepr()
 {
     std::stringstream stream;
-    stream<<"[isDir]\t "<<isDir()<<"\n";
+    stream<<"[isDir]\t\t "<<isDir()<<"\n";
     stream<<"[HostOS]\t "<<(uint16)m_host_os<<"\n";
     stream<<"[useUnicode]\t "<<useUnicode()<<"\n";
     stream<<"[hasSalt]\t "<<hasSalt()<<"\n";

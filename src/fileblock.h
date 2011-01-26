@@ -8,6 +8,8 @@ class FileBlock: public Block
 public:
     FileBlock(std::ifstream & stream, size_t base);
 
+    bool isDir();
+
     uint64 packSize();
     uint64 unpackSize();
 
@@ -21,7 +23,6 @@ protected:
     bool hasEmbededComment();
     bool isSolid();
     bool sizeOfDictInKB();
-    bool isDir();
     bool isLargeFile();
     bool useUnicode();
     bool hasSalt();
