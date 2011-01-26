@@ -30,7 +30,7 @@ Block::getAddedSize()
 
 
 string
-Block::debugRepr()
+Block::debugRepr() const
 {
     std::stringstream stream ;
 
@@ -53,26 +53,26 @@ Block::debugRepr()
 
 
 string
-Block::extraDebugRepr()
+Block::extraDebugRepr() const
 {
     return "";
 }
 
 size_t
-Block::totalSize()
+Block::totalSize() const
 {
     return m_header_size + m_added_size ;
 }
 
 
 bool
-Block::shouldSkipUnknownBlock()
+Block::shouldSkipUnknownBlock() const
 {
     return m_flags & 0x4000U ;
 }
 
 bool
-Block::hasAddedSize()
+Block::hasAddedSize() const
 {
     return m_flags & 0x8000U;
 }

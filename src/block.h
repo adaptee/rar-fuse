@@ -13,15 +13,15 @@ class Block
 public:
     Block(std::ifstream & stream, size_t base);
 
-    size_t totalSize();
-    string debugRepr();
+    size_t totalSize() const;
+    string debugRepr() const;
 
 protected:
-    virtual string extraDebugRepr();
+    virtual string extraDebugRepr() const;
 
     // predicators based upon flags
-    bool shouldSkipUnknownBlock();
-    bool hasAddedSize();
+    bool shouldSkipUnknownBlock() const;
+    bool hasAddedSize() const ;
 
     // basic data
     uint16  m_header_crc;
