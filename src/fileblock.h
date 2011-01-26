@@ -12,24 +12,24 @@ public:
 
     string filename() const;
 
-    uint64 packSize();
-    uint64 unpackSize();
+    uint64 packSize() const;
+    uint64 unpackSize() const;
 
 protected:
-    virtual string extraDebugRepr();
+    virtual string extraDebugRepr() const;
 
     // predicators based upon flags
-    bool isMissingPart();
-    bool needMissingPart();
-    bool hasPassword();
-    bool hasEmbededComment();
-    bool isSolid();
-    bool sizeOfDictInKB();
-    bool isLargeFile();
-    bool useUnicode();
-    bool hasSalt();
-    bool hasExtTime();
-    bool hasExtFlags();
+    bool isMissingPart() const ;
+    bool needMissingPart() const ;
+    bool hasPassword() const ;
+    bool hasEmbededComment() const ;
+    bool isSolid() const ;
+    bool sizeOfDictInKB() const ;
+    bool isLargeFile() const ;
+    bool useUnicode() const ;
+    bool hasSalt() const ;
+    bool hasExtTime() const ;
+    bool hasExtFlags() const ;
 
     // basic data
     uint32  m_low_pack_size;

@@ -23,13 +23,13 @@ FileBlock::filename() const
 
 
 uint64
-FileBlock::packSize()
+FileBlock::packSize() const
 {
     return m_low_pack_size + (uint64(m_high_pack_size) << 32);
 }
 
 uint64
-FileBlock::unpackSize()
+FileBlock::unpackSize() const
 {
     return m_low_unpack_size + (uint64(m_high_unpack_size) << 32);
 }
@@ -65,7 +65,7 @@ FileBlock::parse()
 }
 
 string
-FileBlock::extraDebugRepr()
+FileBlock::extraDebugRepr() const
 {
     std::stringstream stream;
     stream<<"[isDir]\t\t "<<isDir()<<"\n";
@@ -136,37 +136,37 @@ FileBlock::getExtFileTime()
 }
 
 bool
-FileBlock::isMissingPart()
+FileBlock::isMissingPart() const
 {
     return m_flags & 0x0001;
 }
 
 bool
-FileBlock::needMissingPart()
+FileBlock::needMissingPart() const
 {
     return m_flags & 0x0002U;
 }
 
 bool
-FileBlock::hasPassword()
+FileBlock::hasPassword() const
 {
     return m_flags & 0x0004U;
 }
 
 bool
-FileBlock::hasEmbededComment()
+FileBlock::hasEmbededComment() const
 {
     return m_flags & 0x0008U;
 }
 
 bool
-FileBlock::isSolid()
+FileBlock::isSolid() const
 {
     return m_flags & 0x0010U;
 }
 
 bool
-FileBlock::sizeOfDictInKB()
+FileBlock::sizeOfDictInKB() const
 {
     //FIXME
     //mask = 0x00e0U
@@ -181,31 +181,31 @@ FileBlock::isDir() const
 }
 
 bool
-FileBlock::isLargeFile()
+FileBlock::isLargeFile() const
 {
     return m_flags & 0x0100U;
 }
 
 bool
-FileBlock::useUnicode()
+FileBlock::useUnicode() const
 {
     return m_flags & 0x0200U;
 }
 
 bool
-FileBlock::hasSalt()
+FileBlock::hasSalt() const
 {
     return m_flags & 0x0400U;
 }
 
 bool
-FileBlock::hasExtTime()
+FileBlock::hasExtTime() const
 {
     return m_flags & 0x1000U;
 }
 
 bool
-FileBlock::hasExtFlags()
+FileBlock::hasExtFlags() const
 {
     return m_flags & 0x2000U;
 }
