@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include <stdlib.h>
 #include <string.h>
 #include "fileblock.h"
@@ -17,8 +18,8 @@ FileBlock::filename() const
     // FIXME; may be too much or not enough
     //char mbs[2048] = { 0x0,};
     //wcstombs(mbs, m_filename, sizeof(mbs) );
-
     //return wstring(mbs);
+
     return wstring(m_filename);
 }
 
@@ -77,8 +78,6 @@ FileBlock::extraDebugRepr() const
     stream<<"[hasExtTime]\t "<<hasExtTime()<<"\n";
     stream<<"\n";
     stream<<"[filename]\t"<<filename()<<"\n";
-    //for(int i=0; i< wcslen(m_filename) ; i++)
-        //stream<<std::hex<<(long long)m_filename[i]<<"\n";
 
     return stream.str();
 
@@ -111,6 +110,13 @@ FileBlock::getFileName()
             m_filename[i] = (wchar_t) natives[i];
         m_filename[m_filename_size] = 0;
     }
+
+    // change path separator: from M$ style '\' to Unix style '/'
+    std::replace( m_filename,
+                  m_filename + sizeof(m_filename)/sizeof(m_filename[0]),
+                  L'\\',
+                  L'/'
+                 );
 
 }
 
