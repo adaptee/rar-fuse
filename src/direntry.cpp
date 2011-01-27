@@ -7,6 +7,22 @@ DirEntry::DirEntry( const wstring & name): Entry(name)
 
 }
 
+const struct stat *
+DirEntry::stat()
+{
+    // FIXME; currently we only support READ-ONLY filesystem
+    m_stat.st_mode  = S_IFDIR | 0555 ;
+    m_stat.st_size  = size();
+    m_stat.st_nlink = 2 + m_subentries.size();
+    // FIXME; use fake value here;
+    m_stat.st_atime = 0x999999 ;
+    m_stat.st_mtime = 0x999999 ;
+
+    return &m_stat;
+
+}
+
+
 wstring
 DirEntry::debugRepr() const
 {

@@ -12,6 +12,9 @@ public:
     virtual size_t size() const { return 4094;  }
     virtual wstring debugRepr() const ;
 
+    virtual const struct stat * stat() ;
+
+
     vector< Entry *> subEntries() const ;
     void addSubEntry(Entry * subentry);
 

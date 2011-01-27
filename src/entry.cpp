@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <string.h>
 
 #include "entry.h"
 #include "fileblock.h"
@@ -11,8 +12,9 @@ Entry::Entry(const wstring & name):
 m_name(name),
 m_parent(NULL)
 {
-
+    memset((void*)&m_stat, 0x0, sizeof(m_stat));
 }
+
 
 void
 Entry::addBlock( FileBlock * block)

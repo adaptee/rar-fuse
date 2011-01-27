@@ -26,7 +26,7 @@ m_root(NULL)
     treenize();
 }
 
-FileSystem~FileSystem()
+FileSystem::~FileSystem()
 {
     delete m_archive;
     delete m_root;

@@ -19,6 +19,20 @@ FileEntry::size() const
     return sum;
 }
 
+const struct stat *
+FileEntry::stat()
+{
+    // FIXME; currently we only support READ-ONLY filesystem
+    m_stat.st_mode  = S_IFDIR | 0444 ;
+    m_stat.st_size  = size();
+    m_stat.st_nlink = 1;
+    // FIXME; use fake value here;
+    m_stat.st_atime = 0x999999 ;
+    m_stat.st_mtime = 0x999999 ;
+
+    return &m_stat;
+}
+
 wstring
 FileEntry::debugRepr() const
 {
