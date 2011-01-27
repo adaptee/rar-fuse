@@ -16,9 +16,11 @@ class FileSystem
 {
 public:
     FileSystem (const char * archive_name);
-    Archive * archive() const;
-    wstring debugRepr() const;
+    ~FileSystem();
 
+    Archive * archive() const;
+
+    wstring debugRepr() const;
     wstring debugRepr2() const;
     wstring debugRepr3() const;
 
@@ -29,10 +31,10 @@ private:
     void treenize();
 
 
-    Archive *    m_archive;
-    const char * m_archive_name;
+    const char *    m_archive_name;
+    Archive *       m_archive;
+    DirEntry *      m_root;
 
-    DirEntry * m_root;
     vector< FileEntry * > m_files;
     vector< DirEntry  * > m_dirs;
 

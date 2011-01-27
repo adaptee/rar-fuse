@@ -26,6 +26,12 @@ m_root(NULL)
     treenize();
 }
 
+FileSystem~FileSystem()
+{
+    delete m_archive;
+    delete m_root;
+}
+
 Archive *
 FileSystem::archive() const
 {
