@@ -4,6 +4,7 @@
 #include "fileblock.h"
 
 const wchar_t UNIX_SEPARATOR = L'/';
+static const wstring ROOT    = L"/";
 
 
 Entry::Entry(const wstring & name):
@@ -46,10 +47,11 @@ Entry::dirname()  const
 {
     size_t pos = m_name.find_last_of(UNIX_SEPARATOR);
 
-    // name does not contain any path separator
-    if (pos == wstring::npos)
+    // the name does not contain any path separator
+    // or the name is the root: "/"
+    if ((pos == wstring::npos) || (pos == 0))
     {
-        return wstring(L"/");
+        return ROOT;
     }
     else
     {

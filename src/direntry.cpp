@@ -16,8 +16,9 @@ DirEntry::debugRepr() const
     //stream<<"[dir] "<<dirname()<<"\n";
 
     size_t size = m_subentries.size();
+    stream<<"[subentries]"<<size<<"\n";
     for( size_t i = 0; i < size; i++ )
-	stream<<m_subentries[i]->debugRepr();
+        stream<<m_subentries[i]->debugRepr();
 
     return stream.str();
 

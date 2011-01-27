@@ -16,13 +16,18 @@ class FileSystem
 {
 public:
     FileSystem (const char * archive_name);
-    wstring debugRepr() const;
     Archive * archive() const;
+    wstring debugRepr() const;
 
     wstring debugRepr2() const;
+    wstring debugRepr3() const;
+
 private:
     void parse();
     void parse2();
+
+    void treenize();
+
 
     Archive *    m_archive;
     const char * m_archive_name;

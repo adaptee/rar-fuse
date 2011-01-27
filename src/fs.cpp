@@ -1,25 +1,87 @@
 #include "fs.h"
 
 #include <sstream>
+#include <iostream>
 
 #include "archive.h"
 #include "fileblock.h"
 #include "fileentry.h"
 #include "direntry.h"
 
+static const wstring ROOT = L"/";
+
 FileSystem::FileSystem (const char * archive_name):
 m_archive_name(archive_name),
 m_root(NULL)
 {
     m_archive = new Archive(archive_name);
+
+    // special code for setting up a fake root
+    m_root = new DirEntry( ROOT );
+    m_dirs.push_back(m_root);
+    m_dirs2[ROOT] = m_root;
+
     parse();
     parse2();
+    treenize();
 }
 
 Archive *
 FileSystem::archive() const
 {
     return m_archive;
+}
+
+
+void
+FileSystem::treenize()
+{
+    map<wstring, FileEntry *>::const_iterator f_iter;
+    for( f_iter = m_files2.begin(); f_iter != m_files2.end(); f_iter++)
+    {
+        wstring key = f_iter->second->dirname();
+        map<wstring, DirEntry *>::const_iterator dir;
+        dir = m_dirs2.find(key);
+
+        if( dir == m_dirs2.end() )
+        {
+            ;
+        }
+        else
+        {
+            dir->second->addSubEntry( f_iter->second);
+            f_iter->second->setParent(dir->second);
+        }
+    }
+
+    map<wstring, DirEntry *>::const_iterator d_iter;
+    for( d_iter = m_dirs2.begin(); d_iter != m_dirs2.end(); d_iter++)
+    {
+        // Pitfall:
+        // comparing two strins with operator == always return false;
+        // if you need to compar them, use method compare().
+        if (d_iter->second == m_root)
+        {
+            continue;
+        }
+
+        wstring key = d_iter->second->dirname();
+
+        map<wstring, DirEntry *>::const_iterator dir;
+        dir = m_dirs2.find(key);
+
+        if( dir == m_dirs2.end() )
+        {
+            //FIXME; shoud raise some exception?
+            ;
+        }
+        else
+        {
+            dir->second->addSubEntry( d_iter->second);
+            d_iter->second->setParent(dir->second);
+        }
+    }
+
 }
 
 
@@ -154,5 +216,13 @@ FileSystem::debugRepr2() const
 
     return stream.str();
 
+}
+
+wstring
+FileSystem::debugRepr3() const
+{
+    std::wstringstream stream;
+    stream<<m_root->debugRepr();
+    return stream.str();
 }
 

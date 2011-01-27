@@ -17,8 +17,9 @@ int main(int argc, char const* argv[])
     //std::wcout<<archive.debugRepr();
 
     FileSystem fs(argv[1]);
-    std::wcout<<fs.debugRepr();
-    std::wcout<<fs.debugRepr2();
+    //std::wcout<<fs.debugRepr();
+    //std::wcout<<fs.debugRepr2();
+    std::wcout<<fs.debugRepr3();
     //std::wcout<<fs.archive()->debugRepr();
 
     return 0;
