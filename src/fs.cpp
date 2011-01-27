@@ -63,9 +63,6 @@ FileSystem::treenize()
     map<wstring, DirEntry *>::const_iterator d_iter;
     for( d_iter = m_dirs2.begin(); d_iter != m_dirs2.end(); d_iter++)
     {
-        // Pitfall:
-        // comparing two strins with operator == always return false;
-        // if you need to compar them, use method compare().
         if (d_iter->second == m_root)
         {
             continue;
