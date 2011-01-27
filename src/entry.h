@@ -14,6 +14,9 @@ public:
     Entry(const wstring & name);
 
     wstring name()   const { return m_name; }
+    wstring basename() const ;
+    wstring dirname()  const ;
+
     Entry * parent() const { return m_parent; }
     void setParent(Entry * parent) { m_parent = parent; }
 

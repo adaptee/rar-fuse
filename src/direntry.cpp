@@ -12,6 +12,8 @@ DirEntry::debugRepr() const
 {
     std::wstringstream stream;
     stream<<"[dir] "<<name()<<"\n";
+    //stream<<"[dir] "<<basename()<<"\n";
+    //stream<<"[dir] "<<dirname()<<"\n";
 
     size_t size = m_subentries.size();
     for( size_t i = 0; i < size; i++ )

@@ -23,7 +23,11 @@ wstring
 FileEntry::debugRepr() const
 {
     std::wstringstream stream;
-    stream<<"[file]\t"<<name()<<"\n";
+
+    stream<<"[file]";
+    stream<<"\t"<<name();
+    stream<<"\t"<<size()<<" bytes";
+    stream<<"\n";
 
     return stream.str();
 
