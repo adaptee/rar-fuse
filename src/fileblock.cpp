@@ -20,7 +20,9 @@ FileBlock::filename() const
     //wcstombs(mbs, m_filename, sizeof(mbs) );
     //return wstring(mbs);
 
-    return wstring(m_filename);
+    // prepend the missing '/', to make it more consistent
+    return wstring(L"/" + wstring(m_filename) );
+    //return wstring(m_filename) ;
 }
 
 
