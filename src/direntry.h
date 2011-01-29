@@ -12,7 +12,7 @@ public:
     virtual size_t size() const { return 4094;  }
     virtual wstring debugRepr() const ;
 
-    virtual const struct stat * stat() ;
+    virtual const struct stat * status() ;
 
 
     vector< Entry *> subEntries() const ;

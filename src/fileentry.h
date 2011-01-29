@@ -13,7 +13,7 @@ public:
     virtual size_t size() const;
     virtual wstring debugRepr() const ;
 
-    virtual const struct stat * stat() ;
+    virtual const struct stat * status() ;
 
 
 };

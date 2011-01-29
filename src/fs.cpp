@@ -3,11 +3,13 @@
 #include <sstream>
 #include <iostream>
 
+
 #include "archive.h"
 #include "fileblock.h"
 #include "fileentry.h"
 #include "direntry.h"
 
+#include <sys/stat.h>
 static const wstring ROOT = L"/";
 
 FileSystem::FileSystem (const char * archive_name):
@@ -36,6 +38,32 @@ Archive *
 FileSystem::archive() const
 {
     return m_archive;
+}
+
+const struct stat *
+FileSystem::getStatus( const wstring & name) const
+{
+    Entry * entry = getEntry(name);
+    if(entry)
+        return entry->status();
+    else
+        return static_cast<const struct stat *>( NULL);
+}
+
+
+Entry *
+FileSystem::getEntry(const wstring & name) const
+{
+    Entry * entry = NULL;
+
+    map<wstring, Entry *>::const_iterator iter;
+    iter = m_entries.find(name);
+
+    if( iter != m_entries.end() )
+        entry = iter->second ;
+
+    return entry;
+
 }
 
 
@@ -148,18 +176,24 @@ FileSystem::parse2()
         FileBlock * block = fileblocks[i];
         wstring name = block->filename();
 
+
+        FileEntry * f_entry = NULL;
         map<wstring, FileEntry *>::iterator iter ;
         iter = m_files2.find(name);
 
         if( iter == m_files2.end() )
         {
-            FileEntry * entry = new FileEntry(name);
-            entry->addBlock(block);
-            m_files2[name]=entry;
+            f_entry = new FileEntry(name);
+            f_entry->addBlock(block);
+            m_files2[name]=f_entry;
+
+            m_entries[name]=f_entry;
+
         }
         else
         {
-           iter->second->addBlock(block);
+            f_entry = iter->second;
+            f_entry->addBlock(block);
         }
 
     }
@@ -172,18 +206,22 @@ FileSystem::parse2()
         FileBlock * block = dirblocks[i];
         wstring name = block->filename();
 
+        DirEntry * d_entry = NULL;
         map<wstring, DirEntry *>::iterator iter ;
         iter = m_dirs2.find(name);
 
         if( iter == m_dirs2.end() )
         {
-            DirEntry * entry = new DirEntry(name);
-            entry->addBlock(block);
-            m_dirs2[name]=entry;
+            d_entry = new DirEntry(name);
+            d_entry->addBlock(block);
+            m_dirs2[name]=d_entry;
+
+            m_entries[name]=d_entry;
         }
         else
         {
-           iter->second->addBlock(block);
+            d_entry = iter->second;
+            d_entry->addBlock(block);
         }
 
     }

@@ -8,7 +8,7 @@ DirEntry::DirEntry( const wstring & name): Entry(name)
 }
 
 const struct stat *
-DirEntry::stat()
+DirEntry::status()
 {
     // FIXME; currently we only support READ-ONLY filesystem
     m_stat.st_mode  = S_IFDIR | 0555 ;

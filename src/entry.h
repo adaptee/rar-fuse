@@ -25,7 +25,7 @@ public:
 
     void addBlock( FileBlock * block);
 
-    virtual const struct stat * stat() =0 ;
+    virtual const struct stat * status() =0 ;
 
     virtual bool isFile()       const =0 ;
     virtual bool isDir()        const =0 ;
