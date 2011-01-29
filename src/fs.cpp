@@ -22,6 +22,7 @@ m_root(NULL)
     m_root = new DirEntry( ROOT );
     m_dirs.push_back(m_root);
     m_dirs2[ROOT] = m_root;
+    m_entries[ROOT] = m_root;
 
     parse();
     parse2();
@@ -51,6 +52,23 @@ FileSystem::getStatus( const wstring & name) const
 }
 
 
+vector<wstring>
+FileSystem::readDir(const wstring & name) const
+{
+    DirEntry * entry = getDir(name);
+    if(entry)
+    {
+        return entry->read() ;
+    }
+    else
+    {
+        vector<wstring> names ;
+        return names ;
+    }
+}
+
+
+
 Entry *
 FileSystem::getEntry(const wstring & name) const
 {
@@ -66,6 +84,19 @@ FileSystem::getEntry(const wstring & name) const
 
 }
 
+DirEntry *
+FileSystem::getDir(const wstring & name) const
+{
+    DirEntry * entry = NULL;
+
+    map<wstring, DirEntry *>::const_iterator iter;
+    iter = m_dirs2.find(name);
+
+    if( iter != m_dirs2.end() )
+        entry = iter->second ;
+
+    return entry;
+}
 
 void
 FileSystem::treenize()
@@ -186,7 +217,6 @@ FileSystem::parse2()
             f_entry = new FileEntry(name);
             f_entry->addBlock(block);
             m_files2[name]=f_entry;
-
             m_entries[name]=f_entry;
 
         }
@@ -264,6 +294,28 @@ FileSystem::debugRepr3() const
 {
     std::wstringstream stream;
     stream<<m_root->debugRepr();
+    return stream.str();
+}
+
+
+wstring
+FileSystem::debugRepr4() const
+{
+
+    std::wstringstream stream;
+
+    stream<<"Entry names:";
+    stream<<"\n";
+
+    map<wstring, Entry * >::const_iterator f_iter;
+
+    for( f_iter=m_entries.begin(); f_iter != m_entries.end() ; f_iter++)
+    {
+        stream<<f_iter->first;
+        stream<<"\n";
+    }
+    stream<<"\n";
+
     return stream.str();
 }
 

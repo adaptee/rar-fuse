@@ -27,8 +27,10 @@ public:
     wstring debugRepr() const;
     wstring debugRepr2() const;
     wstring debugRepr3() const;
+    wstring debugRepr4() const;
 
     const struct stat * getStatus( const wstring & name) const;
+    vector<wstring> readDir(const wstring & name) const;
 
 private:
     void parse();
@@ -36,8 +38,8 @@ private:
     void treenize();
 
     Entry * getEntry(const wstring & name) const;
-    Entry * getFile(const wstring & name) const;
-    Entry * getDir(const wstring & name) const;
+    FileEntry * getFile(const wstring & name) const;
+    DirEntry * getDir(const wstring & name) const;
 
 
     const char *    m_archive_name;
