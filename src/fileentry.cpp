@@ -23,7 +23,7 @@ const struct stat *
 FileEntry::status()
 {
     // FIXME; currently we only support READ-ONLY filesystem
-    m_stat.st_mode  = S_IFDIR | 0444 ;
+    m_stat.st_mode  = S_IFREG | 0444 ;
     m_stat.st_size  = size();
     m_stat.st_nlink = 1;
     // FIXME; use fake value here;
