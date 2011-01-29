@@ -14,9 +14,10 @@ public:
 
     virtual const struct stat * status() ;
 
-
     vector< Entry *> subEntries() const ;
     void addSubEntry(Entry * subentry);
+
+    vector<wstring> read() const;
 
 
 private:

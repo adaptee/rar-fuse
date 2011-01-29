@@ -22,6 +22,21 @@ DirEntry::status()
 
 }
 
+vector<wstring>
+DirEntry::read() const
+{
+    vector<wstring> names;
+
+    vector< Entry * >::const_iterator iter;
+    for( iter = m_subentries.begin(); iter != m_subentries.end() ; iter++)
+        names.push_back( (*iter)->basename() );
+        //names.push_back( (*iter)->name() );
+
+    return names;
+
+}
+
+
 
 wstring
 DirEntry::debugRepr() const
