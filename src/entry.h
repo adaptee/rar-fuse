@@ -23,14 +23,15 @@ public:
     Entry * parent() const { return m_parent; }
     void setParent(Entry * parent) { m_parent = parent; }
 
+    void addBlock( FileBlock * block);
+
     virtual const struct stat * stat() =0 ;
 
-    virtual bool isFile()      const =0 ;
-    virtual bool isDir()       const =0 ;
-    virtual size_t size()      const =0 ;
+    virtual bool isFile()       const =0 ;
+    virtual bool isDir()        const =0 ;
+    virtual size_t size()       const =0 ;
     virtual wstring debugRepr() const =0 ;
 
-    void addBlock( FileBlock * block);
 
 protected:
     wstring m_name;
