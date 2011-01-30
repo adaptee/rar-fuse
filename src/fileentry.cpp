@@ -1,10 +1,21 @@
 #include "fileentry.h"
 
 #include <sstream>
+
+#include <assert.h>
+#include <string.h>
+
 #include "fileblock.h"
 
-FileEntry::FileEntry( const wstring & name): Entry(name)
+FileEntry::FileEntry( const wstring & name):
+Entry(name),
+m_data(NULL)
 {
+}
+
+FileEntry::~FileEntry()
+{
+    delete[] m_data ;
 }
 
 size_t
@@ -33,11 +44,37 @@ FileEntry::status()
     return &m_stat;
 }
 
-//TODO provides a real implementation
 size_t
-FileEntry::read( void * dest, size_t offset, size_t count) const
+FileEntry::read( void * dest, size_t offset, size_t count)
 {
+    if ( ! m_data)
+        getData();
+
+    assert ( offset + count <=  size() );
+
+    memcpy( dest, m_data + offset, count);
+
     return 0;
+}
+
+void
+FileEntry::getData()
+{
+    if( !m_data)
+    m_data = new byte[size()];
+
+    byte * dest = m_data;
+
+    vector<FileBlock *>::const_iterator iter;
+    for( iter = m_blocks.begin(); iter != m_blocks.end() ; iter++)
+    {
+        FileBlock * block = (*iter);
+        const byte * src = block->data();
+        memcpy( dest, src, block->unpackSize());
+
+        dest += block->unpackSize();
+    }
+
 }
 
 

@@ -20,6 +20,8 @@ public:
 
     size_t read( void * dest, size_t offset, size_t count);
 
+    const byte * data() ;
+
 protected:
     virtual wstring extraDebugRepr() const;
 

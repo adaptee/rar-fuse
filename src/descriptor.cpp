@@ -2,7 +2,7 @@
 
 #include "fileentry.h"
 
-Descriptor::Descriptor( const FileEntry * entry, size_t fd):
+Descriptor::Descriptor( FileEntry * entry, size_t fd):
 m_fd(fd),
 m_entry(entry),
 m_size(entry->size() ),
