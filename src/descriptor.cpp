@@ -1,7 +1,6 @@
 #include "descriptor.h"
 
 #include "fileentry.h"
-#include "unrarlib.h"
 
 Descriptor::Descriptor( const FileEntry * entry, size_t fd):
 m_fd(fd),

@@ -7,7 +7,6 @@
 #include <assert.h>
 
 #include "filename.h"
-#include "unrarlib.h"
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base):
 Block(stream, base),
