@@ -19,12 +19,18 @@
 
 static FileSystem * fs = NULL;
 
+wstring chars2wstring(const char * charbuf)
+{
+    wchar_t wcharbuf[1024] = {0x0,};
+    mbstowcs(wcharbuf, charbuf, sizeof(wcharbuf)/sizeof(wcharbuf[0]) );
+    return wstring(wcharbuf);
+}
+
+
 static int rarfs_getattr(   const char * p,
                             struct stat * stbuf )
 {
-    wchar_t wcharbuf[1024] = {0x0,};
-    mbstowcs(wcharbuf, p, sizeof(wcharbuf)/sizeof(wcharbuf[0]) );
-    wstring name(wcharbuf);
+    wstring name = chars2wstring(p);
 
     const struct stat * ret = fs->getStatus(name);
 
@@ -55,19 +61,16 @@ static int rarfs_readdir(const char * p, void * buf,
                          fuse_fill_dir_t filler,
                          off_t offset, struct fuse_file_info *fi)
 {
-    char charbuf[1024]     = {0x0,};
-    wchar_t wcharbuf[1024] = {0x0,};
-
-    mbstowcs(wcharbuf, p, sizeof(wcharbuf)/sizeof(wcharbuf[0]) );
-    wstring name( wcharbuf );
+    wstring name = chars2wstring(p);
 
     vector<wstring> names = fs->readDir(name);
 
     filler(buf, ".", NULL, 0);
     filler(buf, "..", NULL, 0);
 
-    vector<wstring>::const_iterator iter;
+    char charbuf[1024]  = {0x0,};
 
+    vector<wstring>::const_iterator iter;
     for(iter = names.begin() ; iter != names.end(); iter++ )
     {
         memset(charbuf, 0, sizeof(charbuf) );
@@ -90,6 +93,10 @@ static int rarfs_open(const char *p, fuse_file_info *fi)
 
 static int rarfs_read(const char *p, char *buf, size_t size, off_t offset, fuse_file_info *fi)
 {
+    wstring name = chars2wstring(p);
+
+    return fs->readFile(name, buf, offset, size);
+
     return 0;
 }
 

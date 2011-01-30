@@ -32,6 +32,9 @@ public:
     const struct stat * getStatus( const wstring & name) const;
     vector<wstring> readDir(const wstring & name) const;
 
+    size_t readFile(const wstring & name,
+                     void * dest, size_t offset, size_t count) const;
+
 private:
     void parse();
     void parse2();

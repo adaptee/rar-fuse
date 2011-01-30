@@ -9,6 +9,8 @@
 #include "fileentry.h"
 #include "direntry.h"
 
+#include "descriptor.h"
+
 #include <sys/stat.h>
 static const wstring ROOT = L"/";
 
@@ -67,7 +69,24 @@ FileSystem::readDir(const wstring & name) const
     }
 }
 
+size_t
+FileSystem::readFile(const wstring & name,
+                    void * dest, size_t offset, size_t count) const
 
+{
+    FileEntry * entry = getFile(name);
+
+    if(entry)
+    {
+        Descriptor descriptor(entry, 0);
+        return descriptor.read(dest, offset, count);
+    }
+    else
+    {
+        return 0;
+    }
+
+}
 
 Entry *
 FileSystem::getEntry(const wstring & name) const
@@ -83,6 +102,21 @@ FileSystem::getEntry(const wstring & name) const
     return entry;
 
 }
+
+FileEntry *
+FileSystem::getFile(const wstring & name) const
+{
+    FileEntry * entry = NULL;
+
+    map<wstring, FileEntry *>::const_iterator iter;
+    iter = m_files2.find(name);
+
+    if( iter != m_files2.end() )
+        entry = iter->second ;
+
+    return entry;
+}
+
 
 DirEntry *
 FileSystem::getDir(const wstring & name) const
