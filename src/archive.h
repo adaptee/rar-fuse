@@ -28,6 +28,11 @@ public:
 
 
 private:
+
+    // make copy-constructor and copy-assignment un-usable
+    Archive( const Archive & block);
+    void operator =(const Archive & block);
+
     void parse();
 
     const char * m_filename;
