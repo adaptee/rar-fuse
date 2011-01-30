@@ -45,6 +45,12 @@ static int rarfs_getattr(   const char * p,
     return -1 ;
 }
 
+
+static int rarfs_opendir(const char * p, struct fuse_file_info * fi)
+{
+    return 0 ;
+}
+
 static int rarfs_readdir(const char * p, void * buf,
                          fuse_fill_dir_t filler,
                          off_t offset, struct fuse_file_info *fi)
@@ -87,16 +93,16 @@ static int rarfs_read(const char *p, char *buf, size_t size, off_t offset, fuse_
     return 0;
 }
 
+static struct fuse_operations rarfs_oper ;
 
-static struct fuse_operations rarfs_oper;
+
+
 static struct fuse_opt rarfs_opts[] = { } ;
 
 static int rarfs_opt_proc(void *data, const char *arg, int key,
         struct fuse_args *outargs)
 {
 
-    // initialize locale
-    setlocale(LC_ALL, "");
 
     char *tmp = (char *)data;
 
@@ -120,13 +126,18 @@ int main( int argc, char ** argv)
     if (fuse_opt_parse(&args, archive_name, rarfs_opts, rarfs_opt_proc) == -1)
         exit(1);
 
+    // initialize locale
+    setlocale(LC_ALL, "");
+
     //FileSystem fs(argv[1]);
     fs = new FileSystem (argv[1]);
 
     rarfs_oper.getattr = rarfs_getattr;
+    rarfs_oper.open    = rarfs_open;
+    rarfs_oper.read    = rarfs_read;
+    rarfs_oper.opendir = rarfs_opendir;
     rarfs_oper.readdir = rarfs_readdir;
-    rarfs_oper.open = rarfs_open;
-    rarfs_oper.read = rarfs_read;
+    //rarfs_oper.flag_nullpath_ok = 0;
 
     return fuse_main(args.argc, args.argv, &rarfs_oper);
 
