@@ -35,7 +35,7 @@ FileEntry::status()
 
 //TODO provides a real implementation
 size_t
-FileEntry::read( void * dest, size_t count) const
+FileEntry::read( void * dest, size_t offset, size_t count) const
 {
     return 0;
 }

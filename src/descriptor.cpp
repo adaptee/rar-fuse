@@ -30,7 +30,7 @@ Descriptor::read( void * dest, size_t count)
 
     // FIXME
     // here we assume FileEntry::read() will always work perfectly.
-    m_entry->read(dest, real_count);
+    m_entry->read(dest, m_offset, real_count);
     return real_count;
 }
 
