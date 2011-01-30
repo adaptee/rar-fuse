@@ -5,21 +5,22 @@
 #include "fileblock.h"
 #include "filename.h"
 
-FileBlock::FileBlock(std::ifstream & stream, size_t base): Block(stream, base)
+#include "unrarlib.h"
+
+FileBlock::FileBlock(std::ifstream & stream, size_t base):
+Block(stream, base),
+m_data(NULL)
 {
     parse();
-
 }
-
+FileBlock::~FileBlock()
+{
+    delete[] m_data;
+}
 
 wstring
 FileBlock::filename() const
 {
-    // FIXME; may be too much or not enough
-    //char mbs[2048] = { 0x0,};
-    //wcstombs(mbs, m_filename, sizeof(mbs) );
-    //return wstring(mbs);
-
     // prepend the missing '/', to make it more consistent
     return wstring(L"/" + wstring(m_filename) );
     //return wstring(m_filename) ;
@@ -36,6 +37,22 @@ uint64
 FileBlock::unpackSize() const
 {
     return m_low_unpack_size + (uint64(m_high_unpack_size) << 32);
+}
+
+size_t
+FileBlock::read( void * dest, size_t offset, size_t count)
+{
+    if ( ! m_data)
+        getData();
+
+    return 0;
+}
+
+void
+FileBlock::getData()
+{
+    m_data = new byte[unpackSize()];
+
 }
 
 

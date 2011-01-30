@@ -7,13 +7,15 @@ class FileBlock: public Block
 {
 public:
     FileBlock(std::ifstream & stream, size_t base);
-
+    ~FileBlock();
     bool isDir() const;
 
     wstring filename() const;
 
     uint64 packSize() const;
     uint64 unpackSize() const;
+
+    size_t read( void * dest, size_t offset, size_t count);
 
 protected:
     virtual wstring extraDebugRepr() const;
@@ -57,6 +59,9 @@ private:
     void getFileName();
     void getExtFileTime();
 
+    void getData();
+
+    byte * m_data;
 };
 
 
