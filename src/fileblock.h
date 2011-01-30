@@ -8,6 +8,7 @@ class FileBlock: public Block
 public:
     FileBlock(std::ifstream & stream, size_t base);
     ~FileBlock();
+
     bool isDir() const;
 
     wstring filename() const;
@@ -52,6 +53,10 @@ protected:
     wchar_t m_filename[512];
 
 private:
+
+    // make it un-copyable
+    FileBlock( const FileBlock & block);
+
     void parse();
     uint32 getOptionalHigherSize();
 
