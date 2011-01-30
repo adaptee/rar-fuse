@@ -38,8 +38,8 @@ FileEntry::status()
     m_stat.st_size  = size();
     m_stat.st_nlink = 1;
     // FIXME; use fake value here;
-    m_stat.st_atime = 0x999999 ;
-    m_stat.st_mtime = 0x999999 ;
+    m_stat.st_atime = time() ;
+    m_stat.st_mtime = time();
 
     return &m_stat;
 }

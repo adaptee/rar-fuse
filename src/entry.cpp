@@ -3,6 +3,7 @@
 
 #include "entry.h"
 #include "fileblock.h"
+#include "dostime.h"
 
 const wchar_t UNIX_SEPARATOR = L'/';
 static const wstring ROOT    = L"/";
@@ -59,5 +60,9 @@ Entry::dirname()  const
 }
 
 
-
-
+time_t
+Entry::time() const
+{
+    dostime_t dostime = m_blocks[0]->time();
+    return dos_to_unix_time(dostime);
+}

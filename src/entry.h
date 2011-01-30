@@ -8,6 +8,7 @@ using std::wstring;
 using std::vector;
 
 #include <sys/stat.h>
+#include <time.h>
 
 class FileBlock;
 
@@ -19,6 +20,9 @@ public:
     wstring name()   const { return m_name; }
     wstring basename() const ;
     wstring dirname()  const ;
+
+    time_t time() const;
+
 
     Entry * parent() const { return m_parent; }
     void setParent(Entry * parent) { m_parent = parent; }

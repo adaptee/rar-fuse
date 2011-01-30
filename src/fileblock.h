@@ -18,6 +18,8 @@ public:
     uint64 packSize() const;
     uint64 unpackSize() const;
 
+    uint32 time() const;
+
     size_t read( void * dest, size_t offset, size_t count);
 
     const byte * data() ;

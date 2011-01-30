@@ -39,6 +39,14 @@ FileBlock::unpackSize() const
     return m_low_unpack_size + (uint64(m_high_unpack_size) << 32);
 }
 
+uint32
+FileBlock::time() const
+{
+    return m_filetime;
+}
+
+
+
 bool FileBlock::isCompressed() const
 {
     return (m_pack_method != 0x30);
