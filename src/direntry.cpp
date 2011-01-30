@@ -23,7 +23,7 @@ DirEntry::status()
 }
 
 vector<wstring>
-DirEntry::read() const
+DirEntry::readDir() const
 {
     vector<wstring> names;
 

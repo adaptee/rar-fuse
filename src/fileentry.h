@@ -14,7 +14,7 @@ public:
     virtual wstring debugRepr() const ;
 
     virtual const struct stat * status() ;
-
+    size_t read( void * dest, size_t count) const;
 
 };
 

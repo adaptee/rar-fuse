@@ -33,6 +33,14 @@ FileEntry::status()
     return &m_stat;
 }
 
+//TODO provides a real implementation
+size_t
+FileEntry::read( void * dest, size_t count) const
+{
+    return 0;
+}
+
+
 wstring
 FileEntry::debugRepr() const
 {
