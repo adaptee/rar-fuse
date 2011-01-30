@@ -58,7 +58,7 @@ FileSystem::readDir(const wstring & name) const
     DirEntry * entry = getDir(name);
     if(entry)
     {
-        return entry->read() ;
+        return entry->readDir() ;
     }
     else
     {

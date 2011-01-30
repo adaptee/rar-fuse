@@ -13,7 +13,7 @@ public:
     virtual wstring debugRepr() const ;
 
     virtual const struct stat * status() ;
-    vector<wstring> read() const;
+    vector<wstring> readDir() const;
 
     void addSubEntry(Entry * subentry);
 
