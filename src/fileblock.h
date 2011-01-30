@@ -9,9 +9,10 @@ public:
     FileBlock(std::ifstream & stream, size_t base);
     ~FileBlock();
 
-    bool isDir() const;
-
     wstring filename() const;
+
+    bool isDir() const;
+    bool isCompressed() const;
 
     uint64 packSize() const;
     uint64 unpackSize() const;

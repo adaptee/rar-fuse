@@ -23,7 +23,6 @@ FileBlock::filename() const
 {
     // prepend the missing '/', to make it more consistent
     return wstring(L"/" + wstring(m_filename) );
-    //return wstring(m_filename) ;
 }
 
 
@@ -38,6 +37,12 @@ FileBlock::unpackSize() const
 {
     return m_low_unpack_size + (uint64(m_high_unpack_size) << 32);
 }
+
+bool FileBlock::isCompressed() const
+{
+    return (m_pack_method == 0x30);
+}
+
 
 size_t
 FileBlock::read( void * dest, size_t offset, size_t count)
