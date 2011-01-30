@@ -54,8 +54,9 @@ protected:
 
 private:
 
-    // make it un-copyable
+    // make copy-constructor and copy-assignment un-usable
     FileBlock( const FileBlock & block);
+    void operator =(const FileBlock & block);
 
     void parse();
     uint32 getOptionalHigherSize();
