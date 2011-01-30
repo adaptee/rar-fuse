@@ -1,10 +1,12 @@
+#include "fileblock.h"
+
 #include <sstream>
 #include <algorithm>
 #include <stdlib.h>
 #include <string.h>
-#include "fileblock.h"
-#include "filename.h"
+#include <assert.h>
 
+#include "filename.h"
 #include "unrarlib.h"
 
 FileBlock::FileBlock(std::ifstream & stream, size_t base):
@@ -50,7 +52,11 @@ FileBlock::read( void * dest, size_t offset, size_t count)
     if ( ! m_data)
         getData();
 
-    return 0;
+    assert ( offset + count <=  unpackSize() );
+
+    memcpy( dest, m_data + offset, count);
+    return count;
+
 }
 
 void
@@ -58,6 +64,19 @@ FileBlock::getData()
 {
     m_data = new byte[unpackSize()];
 
+    if ( isCompressed() )
+    {
+        // the hard part
+    }
+    else
+    {
+        size_t old_pos = m_stream.tellg();
+
+        m_stream.seekg(m_base + m_header_size);
+        m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
+
+        m_stream.seekg(old_pos, std::ios::beg);
+    }
 }
 
 

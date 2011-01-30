@@ -2,6 +2,7 @@
 #define FILEBLOCK_GUARD
 
 #include "block.h"
+#include <fstream>
 
 class FileBlock: public Block
 {

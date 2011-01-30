@@ -36,12 +36,13 @@ protected:
     uint32 readUInt32();
     void   readBytes( byte * outbuf, size_t count );
 
+    std::ifstream & m_stream;
+    const size_t    m_base;
+
 private:
     void parse();
     uint32 getAddedSize();
 
-    std::ifstream & m_stream;
-    const size_t    m_base;
 };
 
 
