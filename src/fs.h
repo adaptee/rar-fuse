@@ -37,7 +37,6 @@ public:
 
 private:
     void parse();
-    void parse2();
     void treenize();
 
     Entry * getEntry(const wstring & name) const;
@@ -49,11 +48,8 @@ private:
     Archive *       m_archive;
     DirEntry *      m_root;
 
-    vector< FileEntry * > m_files;
-    vector< DirEntry  * > m_dirs;
-
-    map< wstring, FileEntry * > m_files2;
-    map< wstring, DirEntry * > m_dirs2;
+    map< wstring, FileEntry * > m_files;
+    map< wstring, DirEntry * > m_dirs;
     map< wstring, Entry * > m_entries;
 
 

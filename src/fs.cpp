@@ -3,15 +3,14 @@
 #include <sstream>
 #include <iostream>
 
+#include <sys/stat.h>
 
 #include "archive.h"
-#include "fileblock.h"
 #include "fileentry.h"
 #include "direntry.h"
-
+#include "fileblock.h"
 #include "descriptor.h"
 
-#include <sys/stat.h>
 static const wstring ROOT = L"/";
 
 FileSystem::FileSystem (const char * archive_name):
@@ -22,12 +21,10 @@ m_root(NULL)
 
     // special code for setting up a fake root
     m_root = new DirEntry( ROOT );
-    m_dirs.push_back(m_root);
-    m_dirs2[ROOT] = m_root;
+    m_dirs[ROOT] = m_root;
     m_entries[ROOT] = m_root;
 
     parse();
-    parse2();
     treenize();
 }
 
@@ -109,9 +106,9 @@ FileSystem::getFile(const wstring & name) const
     FileEntry * entry = NULL;
 
     map<wstring, FileEntry *>::const_iterator iter;
-    iter = m_files2.find(name);
+    iter = m_files.find(name);
 
-    if( iter != m_files2.end() )
+    if( iter != m_files.end() )
         entry = iter->second ;
 
     return entry;
@@ -124,9 +121,9 @@ FileSystem::getDir(const wstring & name) const
     DirEntry * entry = NULL;
 
     map<wstring, DirEntry *>::const_iterator iter;
-    iter = m_dirs2.find(name);
+    iter = m_dirs.find(name);
 
-    if( iter != m_dirs2.end() )
+    if( iter != m_dirs.end() )
         entry = iter->second ;
 
     return entry;
@@ -136,13 +133,13 @@ void
 FileSystem::treenize()
 {
     map<wstring, FileEntry *>::const_iterator f_iter;
-    for( f_iter = m_files2.begin(); f_iter != m_files2.end(); f_iter++)
+    for( f_iter = m_files.begin(); f_iter != m_files.end(); f_iter++)
     {
         wstring key = f_iter->second->dirname();
         map<wstring, DirEntry *>::const_iterator dir;
-        dir = m_dirs2.find(key);
+        dir = m_dirs.find(key);
 
-        if( dir == m_dirs2.end() )
+        if( dir == m_dirs.end() )
         {
             ;
         }
@@ -154,7 +151,7 @@ FileSystem::treenize()
     }
 
     map<wstring, DirEntry *>::const_iterator d_iter;
-    for( d_iter = m_dirs2.begin(); d_iter != m_dirs2.end(); d_iter++)
+    for( d_iter = m_dirs.begin(); d_iter != m_dirs.end(); d_iter++)
     {
         if (d_iter->second == m_root)
         {
@@ -164,9 +161,9 @@ FileSystem::treenize()
         wstring key = d_iter->second->dirname();
 
         map<wstring, DirEntry *>::const_iterator dir;
-        dir = m_dirs2.find(key);
+        dir = m_dirs.find(key);
 
-        if( dir == m_dirs2.end() )
+        if( dir == m_dirs.end() )
         {
             //FIXME; shoud raise some exception?
             ;
@@ -185,55 +182,6 @@ void
 FileSystem::parse()
 {
     vector<FileBlock *> fileblocks = m_archive->fileBlocks();
-    size_t size = fileblocks.size();
-    for ( size_t i = 0; i < size; i ++ )
-    {
-        FileEntry * entry = new FileEntry(fileblocks[i]->filename() );
-        entry->addBlock(fileblocks[i]);
-        m_files.push_back(entry);
-    }
-
-    vector<FileBlock *> dirblocks = m_archive->dirBlocks();
-    size = dirblocks.size();
-    for ( size_t i = 0; i < size; i ++ )
-    {
-        DirEntry * entry = new DirEntry(dirblocks[i]->filename() );
-        entry->addBlock(dirblocks[i]);
-        m_dirs.push_back(entry);
-    }
-
-}
-
-
-wstring
-FileSystem::debugRepr() const
-{
-    std::wstringstream stream;
-
-    stream<<"Rar FileSystem\n";
-    stream<<"\n";
-
-    stream<<"Files:\n";
-    size_t size = m_files.size();
-    for (size_t i = 0; i < size; i++ )
-        stream<<m_files[i]->debugRepr();
-    stream<<"\n";
-
-    stream<<"Dirs:\n";
-    size = m_dirs.size();
-    for (size_t i = 0; i < size; i++ )
-        stream<<m_dirs[i]->debugRepr();
-    stream<<"\n";
-
-    return stream.str();
-}
-
-
-
-void
-FileSystem::parse2()
-{
-    vector<FileBlock *> fileblocks = m_archive->fileBlocks();
 
     size_t size = fileblocks.size();
     for ( size_t i = 0; i < size; i ++ )
@@ -244,13 +192,13 @@ FileSystem::parse2()
 
         FileEntry * f_entry = NULL;
         map<wstring, FileEntry *>::iterator iter ;
-        iter = m_files2.find(name);
+        iter = m_files.find(name);
 
-        if( iter == m_files2.end() )
+        if( iter == m_files.end() )
         {
             f_entry = new FileEntry(name);
             f_entry->addBlock(block);
-            m_files2[name]=f_entry;
+            m_files[name]=f_entry;
             m_entries[name]=f_entry;
 
         }
@@ -272,13 +220,13 @@ FileSystem::parse2()
 
         DirEntry * d_entry = NULL;
         map<wstring, DirEntry *>::iterator iter ;
-        iter = m_dirs2.find(name);
+        iter = m_dirs.find(name);
 
-        if( iter == m_dirs2.end() )
+        if( iter == m_dirs.end() )
         {
             d_entry = new DirEntry(name);
             d_entry->addBlock(block);
-            m_dirs2[name]=d_entry;
+            m_dirs[name]=d_entry;
 
             m_entries[name]=d_entry;
         }
@@ -304,7 +252,7 @@ FileSystem::debugRepr2() const
     stream<<"Files:\n";
     map<wstring, FileEntry * >::const_iterator f_iter;
 
-    for( f_iter=m_files2.begin(); f_iter != m_files2.end() ; f_iter++)
+    for( f_iter=m_files.begin(); f_iter != m_files.end() ; f_iter++)
     {
         stream<<f_iter->second->debugRepr();
     }
@@ -313,7 +261,7 @@ FileSystem::debugRepr2() const
 
     stream<<"Dirs:\n";
     map<wstring, DirEntry *>::const_iterator d_iter;
-    for(d_iter=m_dirs2.begin(); d_iter != m_dirs2.end() ; d_iter++)
+    for(d_iter=m_dirs.begin(); d_iter != m_dirs.end() ; d_iter++)
     {
         stream<<d_iter->second->debugRepr();
     }
