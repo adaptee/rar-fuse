@@ -13,15 +13,16 @@ public:
     virtual wstring debugRepr() const ;
 
     virtual const struct stat * status() ;
-
-    vector< Entry *> subEntries() const ;
-    void addSubEntry(Entry * subentry);
-
     vector<wstring> read() const;
+
+    void addSubEntry(Entry * subentry);
 
 
 private:
+
     vector< Entry *> m_subentries ;
+    vector< Entry *> m_subdirentries ;
+
 
 }; // end of class DirEntry
 
