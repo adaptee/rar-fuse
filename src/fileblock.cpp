@@ -229,7 +229,7 @@ FileBlock::getSalt(byte * buf)
 void
 FileBlock::getExtFileTime()
 {
-
+    // TODO; implement it, or not?
 }
 
 bool
