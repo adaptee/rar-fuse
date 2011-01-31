@@ -66,3 +66,24 @@ Entry::time() const
     dostime_t dostime = m_blocks[0]->time();
     return dos_to_unix_time(dostime);
 }
+
+time_t
+Entry::atime() const
+{
+    dostime_t atime = m_blocks[0]->atime();
+    return dos_to_unix_time(atime);
+}
+
+time_t
+Entry::ctime() const
+{
+    dostime_t ctime = m_blocks[0]->ctime();
+    return dos_to_unix_time(ctime);
+}
+time_t
+Entry::mtime() const
+{
+    dostime_t mtime = m_blocks[0]->mtime();
+    return dos_to_unix_time(mtime);
+}
+

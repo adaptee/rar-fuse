@@ -37,9 +37,16 @@ FileEntry::status()
     m_stat.st_mode  = S_IFREG | 0444 ;
     m_stat.st_size  = size();
     m_stat.st_nlink = 1;
-    // FIXME; use fake value here;
+
+    // extra precision ( to 100 nanoseconds) of time means
+    // nothing in *nix system .So. just use normal time.
     m_stat.st_atime = time() ;
-    m_stat.st_mtime = time();
+    m_stat.st_ctime = time() ;
+    m_stat.st_mtime = time() ;
+
+    //m_stat.st_atime = atime() ;
+    //m_stat.st_ctime = ctime() ;
+    //m_stat.st_mtime = mtime();
 
     return &m_stat;
 }

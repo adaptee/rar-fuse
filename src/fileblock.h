@@ -19,6 +19,9 @@ public:
     uint64 unpackSize() const;
 
     uint32 time() const;
+    uint32 atime() const;
+    uint32 ctime() const;
+    uint32 mtime() const;
 
     size_t read( void * dest, size_t offset, size_t count);
 
@@ -50,6 +53,10 @@ protected:
     byte    m_pack_method;
     uint16  m_filename_size;
     uint32  m_fileattr;
+
+    uint32 m_atime;
+    uint32 m_ctime;
+    uint32 m_mtime;
 
     uint32 m_high_pack_size ;
     uint32 m_high_unpack_size ;

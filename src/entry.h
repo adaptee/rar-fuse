@@ -22,6 +22,9 @@ public:
     wstring dirname()  const ;
 
     time_t time() const;
+    time_t atime() const;
+    time_t ctime() const;
+    time_t mtime() const;
 
 
     Entry * parent() const { return m_parent; }

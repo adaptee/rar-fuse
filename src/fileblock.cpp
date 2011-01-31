@@ -45,6 +45,32 @@ FileBlock::time() const
     return m_filetime;
 }
 
+uint32
+FileBlock::atime() const
+{
+    if( hasExtTime() )
+        return m_atime;
+    else
+        return m_filetime;
+}
+
+uint32
+FileBlock::ctime() const
+{
+    if( hasExtTime() )
+        return m_ctime;
+    else
+        return m_filetime;
+}
+
+uint32
+FileBlock::mtime() const
+{
+    if( hasExtTime() )
+        return m_mtime;
+    else
+        return m_filetime;
+}
 
 
 bool FileBlock::isCompressed() const
