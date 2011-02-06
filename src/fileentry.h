@@ -19,8 +19,19 @@ public:
     size_t read( void * dest, size_t offset, size_t count) ;
 private:
 
+    bool isCompressed() const;
+    size_t rawSize() const;
+
     void getData();
+
+    //byte * data();
+    //byte * getData();
+
+    //byte * rawData();
+    //byte * getRawData();
+
     byte * m_data ;
+    byte * m_rawData ;
 
 };
 

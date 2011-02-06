@@ -9,13 +9,15 @@
 
 FileEntry::FileEntry( const wstring & name):
 Entry(name),
-m_data(NULL)
+m_data(NULL),
+m_rawData(NULL)
 {
 }
 
 FileEntry::~FileEntry()
 {
     delete[] m_data ;
+    delete[] m_rawData ;
 }
 
 size_t
@@ -28,6 +30,24 @@ FileEntry::size() const
 	sum += m_blocks[i]->unpackSize();
 
     return sum;
+}
+
+size_t
+FileEntry::rawSize() const
+{
+    size_t sum = 0;
+
+    size_t blocknum = m_blocks.size();
+    for( size_t i =0; i < blocknum; i++ )
+	sum += m_blocks[i]->packSize();
+
+    return sum;
+}
+
+bool
+FileEntry::isCompressed() const
+{
+    return m_blocks[0]->isCompressed();
 }
 
 const struct stat *
