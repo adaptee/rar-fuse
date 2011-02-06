@@ -25,8 +25,8 @@ private:
     byte * data() ;
     byte * getData();
 
-    //byte * rawData();
-    //byte * getRawData();
+    byte * rawData();
+    byte * getRawData();
 
     byte * m_data ;
     byte * m_rawData ;

@@ -74,9 +74,6 @@ FileEntry::status()
 size_t
 FileEntry::read( void * dest, size_t offset, size_t count)
 {
-    //if ( ! m_data)
-        //getData();
-
     assert ( offset + count <=  size() );
 
     memcpy( dest, data() + offset, count);
@@ -87,34 +84,53 @@ FileEntry::read( void * dest, size_t offset, size_t count)
 byte *
 FileEntry::data()
 {
-    if ( m_data == NULL)
+    if( m_data == NULL)
         m_data = getData();
 
     return m_data;
 }
 
-
 byte *
 FileEntry::getData()
 {
-    byte * data = new byte[size()];
+    if( ! isCompressed() )
+    {
+        return rawData();
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
-    byte * dest = data;
+byte *
+FileEntry::rawData()
+{
+    if( m_rawData == NULL)
+        m_rawData = getRawData();
+
+    return m_rawData;
+}
+
+byte *
+FileEntry::getRawData()
+{
+    byte * rawdata = new byte[rawSize()];
+
+    byte * dest = rawdata;
 
     vector<FileBlock *>::const_iterator iter;
     for( iter = m_blocks.begin(); iter != m_blocks.end() ; iter++)
     {
         FileBlock * block = (*iter);
         const byte * src = block->data();
-        memcpy( dest, src, block->unpackSize());
+        memcpy( dest, src, block->packSize());
 
-        dest += block->unpackSize();
+        dest += block->packSize();
     }
 
-    return data;
-
+    return rawdata;
 }
-
 
 wstring
 FileEntry::debugRepr() const
