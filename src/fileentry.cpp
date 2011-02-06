@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "fileblock.h"
+#include "unpack.hpp"
 
 FileEntry::FileEntry( const wstring & name):
 Entry(name),
@@ -99,9 +100,29 @@ FileEntry::getData()
     }
     else
     {
-        return NULL;
+        return getDecompressedData();
     }
 }
+
+
+byte *
+FileEntry::getDecompressedData()
+{
+    size_t rawsize = rawSize();
+    byte * rawdata = rawData();
+
+    size_t realsize = size();
+    byte * realdata = new byte[realsize];
+
+    Unpack unpack(rawdata, rawsize, realdata, realsize);
+    unpack.Init();
+    unpack.SetDestSize(realsize);
+    unpack.DoUnpack(29, false);
+
+    return realdata;
+
+}
+
 
 byte *
 FileEntry::rawData()

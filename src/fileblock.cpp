@@ -92,30 +92,44 @@ FileBlock::read( void * dest, size_t offset, size_t count)
 
 }
 
+//void
+//FileBlock::getData()
+//{
+    //if( ! m_data)
+    //{
+        //m_data = new byte[unpackSize()];
+
+        //if ( isCompressed() )
+        //{
+            //// the hard part
+            //bool comp = true;
+        //}
+        //else
+        //{
+            //size_t old_pos = m_stream.tellg();
+
+            //m_stream.seekg(m_base + m_header_size);
+            //m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
+
+            //m_stream.seekg(old_pos, std::ios::beg);
+        //}
+    //}
+
+//}
+
 void
 FileBlock::getData()
 {
-    if( ! m_data)
-    {
-        m_data = new byte[unpackSize()];
+    m_data = new byte[unpackSize()];
 
-        if ( isCompressed() )
-        {
-            // the hard part
-            bool comp = true;
-        }
-        else
-        {
-            size_t old_pos = m_stream.tellg();
+    size_t old_pos = m_stream.tellg();
 
-            m_stream.seekg(m_base + m_header_size);
-            m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
+    m_stream.seekg(m_base + m_header_size);
+    m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
 
-            m_stream.seekg(old_pos, std::ios::beg);
-        }
-    }
-
+    m_stream.seekg(old_pos, std::ios::beg);
 }
+
 
 const byte *
 FileBlock::data()

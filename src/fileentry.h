@@ -24,6 +24,7 @@ private:
 
     byte * data() ;
     byte * getData();
+    byte * getDecompressedData();
 
     byte * rawData();
     byte * getRawData();
