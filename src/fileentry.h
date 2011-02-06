@@ -22,10 +22,8 @@ private:
     bool isCompressed() const;
     size_t rawSize() const;
 
-    void getData();
-
-    //byte * data();
-    //byte * getData();
+    byte * data() ;
+    byte * getData();
 
     //byte * rawData();
     //byte * getRawData();

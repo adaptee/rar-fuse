@@ -74,23 +74,32 @@ FileEntry::status()
 size_t
 FileEntry::read( void * dest, size_t offset, size_t count)
 {
-    if ( ! m_data)
-        getData();
+    //if ( ! m_data)
+        //getData();
 
     assert ( offset + count <=  size() );
 
-    memcpy( dest, m_data + offset, count);
+    memcpy( dest, data() + offset, count);
 
     return 0;
 }
 
-void
+byte *
+FileEntry::data()
+{
+    if ( m_data == NULL)
+        m_data = getData();
+
+    return m_data;
+}
+
+
+byte *
 FileEntry::getData()
 {
-    if( !m_data)
-        m_data = new byte[size()];
+    byte * data = new byte[size()];
 
-    byte * dest = m_data;
+    byte * dest = data;
 
     vector<FileBlock *>::const_iterator iter;
     for( iter = m_blocks.begin(); iter != m_blocks.end() ; iter++)
@@ -101,6 +110,8 @@ FileEntry::getData()
 
         dest += block->unpackSize();
     }
+
+    return data;
 
 }
 
