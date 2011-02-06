@@ -68,7 +68,7 @@ void
 FileEntry::getData()
 {
     if( !m_data)
-    m_data = new byte[size()];
+        m_data = new byte[size()];
 
     byte * dest = m_data;
 
