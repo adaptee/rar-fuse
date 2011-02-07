@@ -78,68 +78,28 @@ bool FileBlock::isCompressed() const
     return (m_pack_method != 0x30);
 }
 
-
-size_t
-FileBlock::read( void * dest, size_t offset, size_t count)
-{
-    if ( ! m_data)
-        getData();
-
-    assert ( offset + count <=  unpackSize() );
-
-    memcpy( dest, m_data + offset, count);
-    return count;
-
-}
-
-//void
-//FileBlock::getData()
-//{
-    //if( ! m_data)
-    //{
-        //m_data = new byte[unpackSize()];
-
-        //if ( isCompressed() )
-        //{
-            //// the hard part
-            //bool comp = true;
-        //}
-        //else
-        //{
-            //size_t old_pos = m_stream.tellg();
-
-            //m_stream.seekg(m_base + m_header_size);
-            //m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
-
-            //m_stream.seekg(old_pos, std::ios::beg);
-        //}
-    //}
-
-//}
-
-void
-FileBlock::getData()
-{
-    m_data = new byte[unpackSize()];
-
-    size_t old_pos = m_stream.tellg();
-
-    m_stream.seekg(m_base + m_header_size);
-    m_stream.read( reinterpret_cast<char *>(m_data), m_added_size);
-
-    m_stream.seekg(old_pos, std::ios::beg);
-}
-
-
 const byte *
 FileBlock::data()
 {
-    if(! m_data)
-        getData();
+    if( m_data == NULL )
+        m_data = getData();
 
     return m_data;
 }
 
+byte *
+FileBlock::getData()
+{
+    byte * data = new byte[packSize()];
+
+    size_t old_pos = m_stream.tellg();
+
+    m_stream.seekg(m_base + m_header_size);
+    m_stream.read( reinterpret_cast<char *>(data), m_added_size);
+    m_stream.seekg(old_pos, std::ios::beg);
+
+    return data;
+}
 
 void
 FileBlock::parse()

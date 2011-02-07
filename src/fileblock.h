@@ -23,8 +23,6 @@ public:
     uint32 ctime() const;
     uint32 mtime() const;
 
-    size_t read( void * dest, size_t offset, size_t count);
-
     const byte * data() ;
 
 protected:
@@ -78,7 +76,7 @@ private:
     void getFileName();
     void getExtFileTime();
 
-    void getData();
+    byte * getData();
 
     byte * m_data;
 };
